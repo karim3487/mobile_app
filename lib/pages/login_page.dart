@@ -134,27 +134,12 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Container(
-          decoration: const BoxDecoration(
-            // Box decoration takes a gradient
-            gradient: LinearGradient(
-              // Where the linear gradient begins and ends
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              // Add one stop for each color. Stops should increase from 0 to 1
-              colors: [
-                Color.fromRGBO(255, 138, 0, 1),
-                Color.fromRGBO(255, 222, 47, 1),
-              ],
-            ),
-          ),
-          child: Column(
-            children: [
-              _logo(),
-              _form("ВОЙТИ", _loginUser),
-            ],
-          ),
-        ));
+      body: Column(
+        children: [
+          _logo(),
+          _form("ВОЙТИ", _loginUser),
+        ],
+      ),
+    );
   }
 }
