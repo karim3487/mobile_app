@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _logo() {
+    Widget logo() {
       return Column(
         children: [
           Padding(
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    Widget _input(Icon icon, String hint, TextEditingController controller,
+    Widget input(Icon icon, String hint, TextEditingController controller,
         bool isPassword) {
       return Container(
         padding: const EdgeInsets.only(left: 32, right: 32),
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    Widget _button(String label, void Function() func) {
+    Widget button(String label, void Function() func) {
       return ElevatedButton(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(
@@ -96,17 +96,17 @@ class _LoginPageState extends State<LoginPage> {
           ));
     }
 
-    Widget _form(String label, void Function() func) {
+    Widget form(String label, void Function() func) {
       return Column(
         children: [
           Padding(
               padding: const EdgeInsets.only(top: 35),
-              child: _input(
+              child: input(
                   const Icon(Icons.person), "ЛОГИН", _emailController, false)),
           Padding(
               padding: const EdgeInsets.only(bottom: 20, top: 25),
               // padding: const EdgeInsets.only(bottom: 0, top: 0),
-              child: _input(
+              child: input(
                   const Icon(Icons.lock), "ПАРОЛЬ", _passwordController, true)),
           const SizedBox(height: 20),
           Padding(
@@ -114,14 +114,14 @@ class _LoginPageState extends State<LoginPage> {
             child: SizedBox(
               height: 60,
               width: MediaQuery.of(context).size.width,
-              child: _button(label, func),
+              child: button(label, func),
             ),
           )
         ],
       );
     }
 
-    void _loginUser() {
+    void loginUser() {
       _email = _emailController.text;
       _password = _passwordController.text;
 
@@ -136,8 +136,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Column(
         children: [
-          _logo(),
-          _form("ВОЙТИ", _loginUser),
+          logo(),
+          form("ВОЙТИ", loginUser),
         ],
       ),
     );

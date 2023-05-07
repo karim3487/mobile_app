@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/domain/ad.dart';
+import 'package:mobile_app/models/ad.dart';
 
-import '../ad_card_widget.dart';
-import '../navbar.dart';
+import '../custom_widgets/ad_card_widget.dart';
+import '../custom_widgets/navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,9 +25,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavBar(),
+      drawer: const NavBar(),
       appBar: AppBar(
-        title: Text('Новости'),
+        title: const Text('Новости'),
         // leading: Icon(Icons.menu),
       ),
       body: ListView.builder(

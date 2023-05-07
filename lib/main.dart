@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/pages/landing.dart';
+import 'package:mobile_app/views/landing.dart';
 
 import 'colors.dart';
 
 void main() {
-  runApp(MobileApp());
+  runApp(const MobileApp());
 }
 
 class MobileApp extends StatelessWidget {
+  const MobileApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

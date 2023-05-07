@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/domain/ad.dart';
+import 'package:mobile_app/models/ad.dart';
 
 class CardAdWidget extends StatefulWidget {
   final CardAdModel card;
