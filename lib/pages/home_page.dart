@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/domain/ad.dart';
 
 import '../ad_card_widget.dart';
+import '../navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,9 +25,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavBar(),
       appBar: AppBar(
         title: Text('Новости'),
-        leading: Icon(Icons.menu),
+        // leading: Icon(Icons.menu),
       ),
       body: ListView.builder(
         itemCount: _items.length,

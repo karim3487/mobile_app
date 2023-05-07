@@ -7,5 +7,5 @@ class GradientColors {
 
 class AppColors {
   static const Color appBarColor = Color.fromRGBO(255, 138, 0, 1);
-
+  static const Color navBarColor = Color.fromRGBO(255, 195, 0, 1.0);
 }
