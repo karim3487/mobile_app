@@ -1,8 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/models/ad.dart';
 
 class CardAdWidget extends StatefulWidget {
-  final CardAdModel card;
+  final Ad card;
 
   const CardAdWidget({Key? key, required this.card}) : super(key: key);
 
@@ -12,6 +13,19 @@ class CardAdWidget extends StatefulWidget {
 
 class _CardAdWidgetState extends State<CardAdWidget> {
   bool _isExpanded = false;
+  late Ad _card;
+  late String _creator;
+
+  @override
+  void initState() {
+    super.initState();
+    _card = widget.card;
+    _creator = _card.creator!.profession!;
+    if (kDebugMode) {
+      print("In card");
+      print(_card.title);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +35,14 @@ class _CardAdWidgetState extends State<CardAdWidget> {
       ),
       child: ExpansionTile(
         title: Text(
-          widget.card.creator.toUpperCase(),
+          _creator,
           style: const TextStyle(
               fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         subtitle: Text(
-          widget.card.description,
+          _card.title.toString(),
           style: const TextStyle(fontSize: 15, color: Colors.black45),
+
         ),
         onExpansionChanged: (isExpanded) {
           setState(() {
@@ -39,7 +54,7 @@ class _CardAdWidgetState extends State<CardAdWidget> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              widget.card.text,
+              _card.text.toString(),
               style: const TextStyle(fontSize: 15, color: Colors.black),
             ),
           ),
