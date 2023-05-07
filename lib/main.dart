@@ -13,10 +13,12 @@ class MobileApp extends StatelessWidget {
     return MaterialApp(
       title: "Кафедра О7",
       theme: ThemeData(
-          primaryColor: const Color.fromRGBO(254, 176, 61, 1),
-          scaffoldBackgroundColor: Colors.transparent,
-          textTheme:
-              const TextTheme(titleLarge: TextStyle(color: Colors.white))
+        primaryColor: const Color.fromRGBO(254, 176, 61, 1),
+        scaffoldBackgroundColor: Colors.transparent,
+        textTheme: const TextTheme(titleLarge: TextStyle(color: Colors.white)),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppColors.appBarColor,
+        ),
       ),
       home: Container(
         decoration: const BoxDecoration(
