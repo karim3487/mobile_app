@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mobile_app/controllers/api.dart';
@@ -18,15 +17,6 @@ class _HomePageState extends State<HomePage> {
   var items = <Ad>[];
   Api api = Api();
   List<Ad>? _ads = <Ad>[];
-
-  // late final List<Ad> _items = List<Ad>.generate(
-  //     20,
-  //     (index) => Ad(
-  //         creator: User(),
-  //         title: "Description for item $index",
-  //         text:
-  //             "Text for item $index. Nam et tellus pellentesque, finibus justo eu, laoreet metus. Nullam euismod metus sit amet nisi imperdiet pretium. Vivamus ultrices nunc euismod, egestas tortor egestas, euismod metus. Donec scelerisque sem eu est hendrerit, et blandit lectus pellentesque. Aliquam id dolor volutpat, pharetra ligula vel, consequat ante. Morbi sem dolor, fringilla at eros feugiat, iaculis accumsan diam. Integer eget urna luctus, bibendum purus id, dapibus libero. Sed condimentum cursus aliquam. ")
-  // );
 
   @override
   void initState() {
@@ -69,9 +59,5 @@ class _HomePageState extends State<HomePage> {
   Future _fetchAds() async {
     var ads = await api.getAllAds();
     _ads = ads;
-    if (kDebugMode) {
-      Ad test = ads[0];
-      print(test.text);
-    }
   }
 }
