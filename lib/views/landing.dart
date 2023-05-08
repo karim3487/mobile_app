@@ -9,7 +9,7 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const bool isLoggedIn = true;
+    const bool isLoggedIn = false;
 
     return isLoggedIn ? const HomePage() : const LoginPage();
   }

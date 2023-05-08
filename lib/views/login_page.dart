@@ -1,5 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/views/home_page.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../controllers/api.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,6 +16,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  Api api = Api();
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
 
   late String _email;
   late String _password;
@@ -121,25 +130,25 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    void loginUser() {
-      _email = _emailController.text;
-      _password = _passwordController.text;
-
-      if (kDebugMode) {
-        print(_email);
-        print(_password);
-      }
-      _emailController.clear();
-      _passwordController.clear();
-    }
-
     return Scaffold(
       body: Column(
         children: [
           logo(),
-          form("ВОЙТИ", loginUser),
+          form("ВОЙТИ", _loginUser),
         ],
       ),
     );
+  }
+  Future _loginUser() async {
+    _email = _emailController.text;
+    _password = _passwordController.text;
+
+    var token = await api.loginUserWithEmail(_email, _password);
+    print(token);
+    final SharedPreferences? prefs = await _prefs;
+    await prefs?.setString("token", token);
+    Get.off(const HomePage());
+    _emailController.clear();
+    _passwordController.clear();
   }
 }
