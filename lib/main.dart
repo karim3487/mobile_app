@@ -24,15 +24,7 @@ class MobileApp extends StatelessWidget {
         ),
       ),
       home: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [GradientColors.startColor, GradientColors.endColor],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp,
-          ),
-        ),
+        decoration: GradientBd.dec,
         child: const LandingPage(),
       ),
     );
