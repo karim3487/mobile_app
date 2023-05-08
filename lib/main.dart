@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:mobile_app/views/landing.dart';
-
-import 'colors.dart';
+import 'package:mobile_app/pages/home_page.dart';
 
 void main() {
   runApp(const MobileApp());
@@ -20,13 +18,10 @@ class MobileApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.transparent,
         textTheme: const TextTheme(titleLarge: TextStyle(color: Colors.white)),
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.appBarColor,
+          backgroundColor: Colors.blue,
         ),
       ),
-      home: Container(
-        decoration: GradientBd.dec,
-        child: const LandingPage(),
-      ),
+      home: HomePage(),
     );
   }
 }

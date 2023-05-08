@@ -13,7 +13,7 @@ class Ad {
     creator = User.fromJson(dataJson['creator']);
     title = dataJson['title'];
     text = dataJson['text'];
-    }
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
