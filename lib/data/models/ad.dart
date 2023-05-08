@@ -17,10 +17,10 @@ class Ad {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['creator'] = this.creator;
-    data['title'] = this.title;
-    data['text'] = this.text;
+    data['id'] = id;
+    data['creator'] = creator;
+    data['title'] = title;
+    data['text'] = text;
     return data;
   }
 }

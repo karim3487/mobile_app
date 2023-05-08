@@ -8,12 +8,13 @@ import '../../api.dart';
 class AdApi {
   Future<List<Ad>> getAds() async {
     try {
-      final res = await http.get(
+      var res = await http.get(
         Uri.parse(
-          UrlConstants.baseUrl + UrlConstants.allAds,
+          UrlConstants.allAds,
         ),
       );
-      final data = (jsonDecode(res.body) as List)
+      var resUtf8 = utf8.decode(res.bodyBytes);
+      final data = (jsonDecode(resUtf8) as List)
           .map((post) => Ad.fromJson(post))
           .toList();
       return data;
