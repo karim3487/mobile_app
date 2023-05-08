@@ -139,13 +139,20 @@ class _LoginPageState extends State<LoginPage> {
   Future _loginUser() async {
     _email = _emailController.text;
     _password = _passwordController.text;
+    try {
+      var token = await api.loginUserWithEmail(_email, _password);
+      final SharedPreferences? prefs = await _prefs;
+      await prefs?.setString("token", token);
+      Get.off(() => const HomePage());
 
-    var token = await api.loginUserWithEmail(_email, _password);
-    final SharedPreferences? prefs = await _prefs;
-    await prefs?.setString("token", token);
-    Get.off(() => const HomePage());
-
-    _emailController.clear();
-    _passwordController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Неправильный логин или пароль'),
+        ),
+      );
+    }
   }
 }
