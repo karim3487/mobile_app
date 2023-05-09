@@ -24,19 +24,19 @@ mixin _$HomeStore on _HomeStore, Store {
     });
   }
 
-  late final _$errorMessageAtom =
-      Atom(name: '_HomeStore.errorMessage', context: context);
+  late final _$isLoadingAtom =
+      Atom(name: '_HomeStore.isLoading', context: context);
 
   @override
-  String get errorMessage {
-    _$errorMessageAtom.reportRead();
-    return super.errorMessage;
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
   }
 
   @override
-  set errorMessage(String value) {
-    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
-      super.errorMessage = value;
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
     });
   }
 
@@ -52,7 +52,7 @@ mixin _$HomeStore on _HomeStore, Store {
   String toString() {
     return '''
 adsList: ${adsList},
-errorMessage: ${errorMessage}
+isLoading: ${isLoading}
     ''';
   }
 }

@@ -24,8 +24,4 @@ class ApiClient {
     final ads = (data as List).map((ad) => Ad.fromJson(ad)).toList();
     return ads;
   }
-  // Future<List<Map<String, dynamic>>>> getNews() async {
-  //   final response = await http.get('$baseUrl/news');
-  //   return List<Map<String, dynamic>>.from(json.decode(response.body));
-  // }
 }

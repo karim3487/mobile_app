@@ -25,9 +25,6 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
       body: SafeArea(
         child: Center(
           child: Padding(

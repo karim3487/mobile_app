@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/shared/colors.dart';
 
 import 'api/di/locator.dart';
 import 'auth/auth_page.dart';
-import 'auth/auth_store.dart';
 import 'home/home_page.dart';
 
 void main() {
   setupLocator();
-  final authStore = AuthStore();
-  // final homeStore = HomeStore(apiClient);
   runApp(MobileApp());
 }
 
@@ -20,11 +18,11 @@ class MobileApp extends StatelessWidget {
     return MaterialApp(
       title: "Кафедра О7",
       theme: ThemeData(
-        primaryColor: const Color.fromRGBO(254, 176, 61, 1),
+        primaryColor: MyColors.primary,
         scaffoldBackgroundColor: Colors.white,
         textTheme: const TextTheme(titleLarge: TextStyle(color: Colors.white)),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blue,
+          backgroundColor: MyColors.primary,
         ),
       ),
       initialRoute: '/home',

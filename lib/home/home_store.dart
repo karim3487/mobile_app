@@ -14,15 +14,13 @@ abstract class _HomeStore with Store {
   ObservableList<Ad> adsList = ObservableList<Ad>();
 
   @observable
-  String errorMessage = '';
+  bool isLoading = false;
 
   @action
   Future<void> getAds() async {
-    try {
-      final ads = await _apiClient.getAds();
-      adsList.addAll(ads);
-    } catch (e) {
-      errorMessage = 'Error loading news';
-    }
+    isLoading = true;
+    final ads = await _apiClient.getAds();
+    adsList.addAll(ads);
+    isLoading = false;
   }
 }
