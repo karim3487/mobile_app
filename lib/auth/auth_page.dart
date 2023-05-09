@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-
-import 'auth_store.dart';
+import 'package:mobile_app/api/di/locator.dart';
+import 'package:mobile_app/auth/auth_store.dart';
 
 class AuthPage extends StatefulWidget {
-  final AuthStore authStore;
-
-  AuthPage({required this.authStore});
+  const AuthPage({super.key});
 
   @override
-  _AuthPageState createState() => _AuthPageState();
+  State<AuthPage> createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
+  final authStore = locator.get<AuthStore>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -54,17 +53,17 @@ class _AuthPageState extends State<AuthPage> {
                 const SizedBox(height: 24.0),
                 Observer(
                   builder: (_) => ElevatedButton(
-                    onPressed: widget.authStore.isLoading
+                    onPressed: authStore.isLoading
                         ? null
                         : () async {
-                            await widget.authStore.login(_emailController.text,
+                            await authStore.login(_emailController.text,
                                 _passwordController.text);
-                            if (widget.authStore.isAuthenticated) {
-                              print("УРААААААААА!!!!!!");
-                              // Navigator.pushReplacementNamed(context, '/news');
+                            if (authStore.isAuthenticated) {
+                              // print("УРААААААААА!!!!!!");
+                              Navigator.pushReplacementNamed(context, '/home');
                             }
                           },
-                    child: widget.authStore.isLoading
+                    child: authStore.isLoading
                         ? const CircularProgressIndicator()
                         : const Text('Login'),
                   ),
@@ -72,7 +71,7 @@ class _AuthPageState extends State<AuthPage> {
                 const SizedBox(height: 8.0),
                 Observer(
                   builder: (_) => Text(
-                    widget.authStore.errorMessage,
+                    authStore.errorMessage,
                     style: const TextStyle(
                       color: Colors.red,
                     ),

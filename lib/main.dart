@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-import 'api/api_client.dart';
+import 'api/di/locator.dart';
 import 'auth/auth_page.dart';
 import 'auth/auth_store.dart';
+import 'home/home_page.dart';
 
 void main() {
-  final apiClient = ApiClient();
-  final authStore = AuthStore(apiClient);
-  runApp(MobileApp(
-    authStore: authStore,
-  ));
+  setupLocator();
+  final authStore = AuthStore();
+  // final homeStore = HomeStore(apiClient);
+  runApp(MobileApp());
 }
 
 class MobileApp extends StatelessWidget {
-  final AuthStore authStore;
-
-  const MobileApp({super.key, required this.authStore});
+  const MobileApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +27,10 @@ class MobileApp extends StatelessWidget {
           backgroundColor: Colors.blue,
         ),
       ),
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
-        '/': (context) => AuthPage(authStore: authStore),
+        '/': (context) => AuthPage(),
+        '/home': (context) => HomePage(),
       },
     );
   }
