@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobile_app/api/di/locator.dart';
-import 'package:mobile_app/api/models/ad.dart';
-import 'package:mobile_app/home/ad_store.dart';
+import 'package:mobile_app/di/locator.dart';
+import 'package:mobile_app/models/ad.dart';
+import 'package:mobile_app/stores/auth_store/auth_store.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_store.dart';
+import '../../data/sharedpref/constants/preferences.dart';
+import '../../stores/ad_store/ad_store.dart';
+import '../../stores/home_store/home_store.dart';
+import '../../utils/routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _homeStore = locator.get<HomeStore>();
+  final _authStore = locator.get<AuthStore>();
 
   @override
   void initState() {
@@ -32,24 +36,34 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Новости"),
       ),
-      body: SafeArea(
-        child: Observer(
-          builder: (BuildContext context) {
-            if (_homeStore.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView.builder(
-              itemCount: _homeStore.adsList.length,
-              itemBuilder: (context, index) {
-                final ad = _homeStore.adsList[index];
-                return CardAd(ad: ad);
-              },
-            );
-          },
-        ),
+      body: ElevatedButton(
+        onPressed: () {
+          _authStore.logout();
+          SharedPreferences.getInstance().then((preference) {
+            preference.setBool(Preferences.isAuthenticated, false);
+            Navigator.of(context).pushReplacementNamed(Routes.login);
+          });
+        },
+        child: Text("Выйти"),
       ),
+      // body: SafeArea(
+      //   child: Observer(
+      //     builder: (BuildContext context) {
+      //       if (_homeStore.isLoading) {
+      //         return const Center(
+      //           child: CircularProgressIndicator(),
+      //         );
+      //       }
+      //       return ListView.builder(
+      //         itemCount: _homeStore.adsList.length,
+      //         itemBuilder: (context, index) {
+      //           final ad = _homeStore.adsList[index];
+      //           return CardAd(ad: ad);
+      //         },
+      //       );
+      //     },
+      //   ),
+      // ),
     );
   }
 }

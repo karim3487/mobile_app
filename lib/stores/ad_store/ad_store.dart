@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
 
-import '../api/models/ad.dart';
+import '../../models/ad.dart';
 
 part 'ad_store.g.dart';
 
