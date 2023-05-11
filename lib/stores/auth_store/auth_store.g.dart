@@ -9,6 +9,44 @@ part of 'auth_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AuthStore on _AuthStore, Store {
+  Computed<bool>? _$canLoginComputed;
+
+  @override
+  bool get canLogin => (_$canLoginComputed ??=
+          Computed<bool>(() => super.canLogin, name: '_AuthStore.canLogin'))
+      .value;
+
+  late final _$emailAtom = Atom(name: '_AuthStore.email', context: context);
+
+  @override
+  String get email {
+    _$emailAtom.reportRead();
+    return super.email;
+  }
+
+  @override
+  set email(String value) {
+    _$emailAtom.reportWrite(value, super.email, () {
+      super.email = value;
+    });
+  }
+
+  late final _$passwordAtom =
+      Atom(name: '_AuthStore.password', context: context);
+
+  @override
+  String get password {
+    _$passwordAtom.reportRead();
+    return super.password;
+  }
+
+  @override
+  set password(String value) {
+    _$passwordAtom.reportWrite(value, super.password, () {
+      super.password = value;
+    });
+  }
+
   late final _$isAuthenticatedAtom =
       Atom(name: '_AuthStore.isAuthenticated', context: context);
 
@@ -41,32 +79,38 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
-  late final _$errorMessageAtom =
-      Atom(name: '_AuthStore.errorMessage', context: context);
-
-  @override
-  String get errorMessage {
-    _$errorMessageAtom.reportRead();
-    return super.errorMessage;
-  }
-
-  @override
-  set errorMessage(String value) {
-    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
-      super.errorMessage = value;
-    });
-  }
-
   late final _$loginAsyncAction =
       AsyncAction('_AuthStore.login', context: context);
 
   @override
-  Future<void> login(String email, String password) {
-    return _$loginAsyncAction.run(() => super.login(email, password));
+  Future<void> login() {
+    return _$loginAsyncAction.run(() => super.login());
   }
 
   late final _$_AuthStoreActionController =
       ActionController(name: '_AuthStore', context: context);
+
+  @override
+  void setEmail(String value) {
+    final _$actionInfo =
+        _$_AuthStoreActionController.startAction(name: '_AuthStore.setEmail');
+    try {
+      return super.setEmail(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setPassword(String value) {
+    final _$actionInfo = _$_AuthStoreActionController.startAction(
+        name: '_AuthStore.setPassword');
+    try {
+      return super.setPassword(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void logout() {
@@ -82,9 +126,11 @@ mixin _$AuthStore on _AuthStore, Store {
   @override
   String toString() {
     return '''
+email: ${email},
+password: ${password},
 isAuthenticated: ${isAuthenticated},
 isLoading: ${isLoading},
-errorMessage: ${errorMessage}
+canLogin: ${canLogin}
     ''';
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class TextFieldWidget extends StatelessWidget {
   final IconData icon;
   final String? hint;
-  final String? errorText;
   final bool isObscure;
   final bool isIcon;
   final TextInputType? inputType;
@@ -19,7 +18,7 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: padding,
       child: TextFormField(
         controller: textController,
@@ -38,7 +37,6 @@ class TextFieldWidget extends StatelessWidget {
                 .textTheme
                 .bodyText1!
                 .copyWith(color: hintColor),
-            errorText: errorText,
             counterText: '',
             icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
       ),
@@ -48,7 +46,6 @@ class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
     Key? key,
     required this.icon,
-    required this.errorText,
     required this.textController,
     this.inputType,
     this.hint,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../data/repository.dart';
@@ -18,6 +19,13 @@ abstract class _AuthStore with Store {
     });
   }
 
+// store variables:-----------------------------------------------------------
+  @observable
+  String email = '';
+
+  @observable
+  String password = '';
+
   @observable
   bool isAuthenticated = false;
 
@@ -27,13 +35,34 @@ abstract class _AuthStore with Store {
   @observable
   String errorMessage = '';
 
+  @observable
+  bool success = false;
+
+  @computed
+  bool get canLogin => email.isNotEmpty && password.isNotEmpty;
+
   @action
-  Future<void> login(String email, String password) async {
+  void setEmail(String value) {
+    email = value;
+  }
+
+  @action
+  void setPassword(String value) {
+    password = value;
+  }
+
+  @action
+  Future<void> login() async {
     isLoading = true;
     try {
       final result = await _repository.login(email, password);
+      isAuthenticated = true;
+      success = true;
+      print(result);
     } catch (e) {
-      errorMessage = 'An error occurred: $e';
+      success = false;
+      debugPrint(e.toString());
+      errorMessage = "asd";
     } finally {
       isLoading = false;
     }

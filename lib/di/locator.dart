@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../stores/error/error_store.dart';
-import '../stores/form/form_store.dart';
 import 'modules/NetworkModule.dart';
 import '../data/api/api_client.dart';
 import '../data/sharedpref/shared_preference_helper.dart';
@@ -17,10 +15,6 @@ import '../stores/home_store/home_store.dart';
 final locator = GetIt.instance;
 
 Future<void> setupLocator() async {
-  // factories:-----------------------------------------------------------------
-  locator.registerFactory(() => ErrorStore());
-  locator.registerFactory(() => FormStore());
-
   // async singletons:----------------------------------------------------------
   locator.registerSingletonAsync<SharedPreferences>(
       () => LocalModule.provideSharedPreferences());
