@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobile_app/stores/auth_store/auth_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:validators/validators.dart';
 
 import '../../data/repository.dart';
 import '../../data/sharedpref/constants/preferences.dart';
 import '../../di/locator.dart';
+import '../../shared/colors.dart';
 import '../../utils/routes.dart';
 import '../../widgets/empty_app_bar.dart';
 import '../../widgets/progress_indicator_widget.dart';
@@ -48,25 +48,28 @@ class _AuthPageState extends State<AuthPage> {
   // body methods:--------------------------------------------------------------
   Widget _buildBody() {
     return Material(
-      child: Stack(
-        children: <Widget>[
-          Center(child: _buildRightSide()),
-          Observer(
-            builder: (context) {
-              return _store.isAuthenticated
-                  ? navigate(context)
-                  : _showErrorMessage("");
-            },
-          ),
-          Observer(
-            builder: (context) {
-              return Visibility(
-                visible: _store.isLoading,
-                child: CustomProgressIndicatorWidget(),
-              );
-            },
-          )
-        ],
+      child: Container(
+        decoration: const BoxDecoration(gradient: GradientBd.gradient),
+        child: Stack(
+          children: <Widget>[
+            Center(child: _buildRightSide()),
+            Observer(
+              builder: (context) {
+                return _store.isAuthenticated
+                    ? navigate(context)
+                    : _showErrorMessage("");
+              },
+            ),
+            Observer(
+              builder: (context) {
+                return Visibility(
+                  visible: _store.isLoading,
+                  child: const CustomProgressIndicatorWidget(),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -76,13 +79,21 @@ class _AuthPageState extends State<AuthPage> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Image.asset('assets/images/logo.png'),
-            SizedBox(height: 24.0),
-            const Text('БГТУ "Военмех" им Д.Ф. Устинова'),
+            const SizedBox(height: 24.0),
+            const Text(
+              'БГТУ "Военмех" им Д.Ф. Устинова',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 50.0),
             _buildUserIdField(),
             _buildPasswordField(),
-            _buildSignInButton()
+            _buildSignInButton(),
           ],
         ),
       ),
@@ -93,10 +104,11 @@ class _AuthPageState extends State<AuthPage> {
     return Observer(
       builder: (context) {
         return TextFieldWidget(
+          padding: const EdgeInsets.only(left: 8, right: 8),
           hint: "Email",
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
-          iconColor: Colors.black54,
+          iconColor: Colors.white,
           textController: _userEmailController,
           inputAction: TextInputAction.next,
           autoFocus: false,
@@ -117,9 +129,9 @@ class _AuthPageState extends State<AuthPage> {
         return TextFieldWidget(
           hint: "Пароль",
           isObscure: true,
-          padding: EdgeInsets.only(top: 16.0),
+          padding: const EdgeInsets.only(left: 8, right: 8, top: 16),
           icon: Icons.lock,
-          iconColor: Colors.black54,
+          iconColor: Colors.white,
           textController: _passwordController,
           focusNode: _passwordFocusNode,
           onChanged: (value) {
@@ -131,17 +143,39 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Widget _buildSignInButton() {
-    return ElevatedButton(
-      onPressed: () async {
-        if (_store.canLogin) {
-          // DeviceUtils.hideKeyboard(context);
-          _store.login();
-          _store.isAuthenticated ? print("asd") : _showErrorMessage("asd");
-        } else {
-          _showErrorMessage('Please fill in all fields');
-        }
-      },
-      child: Text("Войти"),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(AppColors.orange[700]),
+            overlayColor:
+                MaterialStatePropertyAll(Theme.of(context).primaryColor),
+            elevation: MaterialStateProperty.all(2),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: const BorderSide(color: Colors.white, width: 3)),
+            ),
+          ),
+          child: const Text(
+            "Войти",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          onPressed: () async {
+            if (_store.canLogin) {
+              // DeviceUtils.hideKeyboard(context);
+              _passwordFocusNode.unfocus();
+              _store.login();
+              _showErrorMessage("Неверный логин или пароль");
+            } else {
+              _showErrorMessage("Пожалуйста, заполните все поля");
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -150,7 +184,7 @@ class _AuthPageState extends State<AuthPage> {
       prefs.setBool(Preferences.isAuthenticated, true);
     });
 
-    Future.delayed(Duration(milliseconds: 0), () {
+    Future.delayed(const Duration(milliseconds: 0), () {
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.home, (Route<dynamic> route) => false);
     });
@@ -161,18 +195,18 @@ class _AuthPageState extends State<AuthPage> {
   // General Methods:-----------------------------------------------------------
   _showErrorMessage(String message) {
     if (message.isNotEmpty) {
-      Future.delayed(Duration(milliseconds: 0), () {
+      Future.delayed(const Duration(milliseconds: 0), () {
         if (message.isNotEmpty) {
           FlushbarHelper.createError(
             message: message,
             title: "Ошибка",
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
           ).show(context);
         }
       });
     }
 
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 
   // dispose:-------------------------------------------------------------------

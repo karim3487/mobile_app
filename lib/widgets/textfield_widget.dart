@@ -30,15 +30,22 @@ class TextFieldWidget extends StatelessWidget {
         obscureText: this.isObscure,
         maxLength: 25,
         keyboardType: this.inputType,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: const TextStyle(
+            color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         decoration: InputDecoration(
             hintText: this.hint,
-            hintStyle: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(color: hintColor),
+            hintStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white54),
             counterText: '',
-            icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
+            focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white, width: 3),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white54, width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            prefixIcon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
       ),
     );
   }
@@ -52,8 +59,8 @@ class TextFieldWidget extends StatelessWidget {
     this.isObscure = false,
     this.isIcon = true,
     this.padding = const EdgeInsets.all(0),
-    this.hintColor = Colors.grey,
-    this.iconColor = Colors.grey,
+    this.hintColor = Colors.white54,
+    this.iconColor = Colors.white54,
     this.focusNode,
     this.onFieldSubmitted,
     this.onChanged,
