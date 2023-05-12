@@ -1,13 +1,17 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_app/di/locator.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobile_app/models/ad.dart';
+import 'package:mobile_app/shared/colors.dart';
 import 'package:mobile_app/stores/auth_store/auth_store.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/sharedpref/constants/preferences.dart';
 import '../../stores/ad_store/ad_store.dart';
 import '../../stores/home_store/home_store.dart';
 import '../../utils/routes.dart';
+import '../../widgets/progress_indicator_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,54 +21,134 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _homeStore = locator.get<HomeStore>();
-  final _authStore = locator.get<AuthStore>();
+  late HomeStore _homeStore;
+  late AuthStore _authStore;
 
   @override
   void initState() {
-    getAds();
     super.initState();
   }
 
-  Future<void> getAds() async {
-    await _homeStore.getAds();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // initializing stores
+    _homeStore = Provider.of<HomeStore>(context);
+    _authStore = Provider.of<AuthStore>(context);
+
+    // check to see if already called api
+    if (!_homeStore.loading) {
+      _homeStore.getAds();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("Новости"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _authStore.logout();
+              SharedPreferences.getInstance().then((preference) {
+                preference.setBool(Preferences.isAuthenticated, false);
+                Navigator.of(context).pushReplacementNamed(Routes.login);
+              });
+            },
+            icon: const Icon(
+              Icons.power_settings_new,
+            ),
+          )
+        ],
       ),
-      body: ElevatedButton(
-        onPressed: () {
-          _authStore.logout();
-          SharedPreferences.getInstance().then((preference) {
-            preference.setBool(Preferences.isAuthenticated, false);
-            Navigator.of(context).pushReplacementNamed(Routes.login);
-          });
-        },
-        child: Text("Выйти"),
-      ),
-      // body: SafeArea(
-      //   child: Observer(
-      //     builder: (BuildContext context) {
-      //       if (_homeStore.isLoading) {
-      //         return const Center(
-      //           child: CircularProgressIndicator(),
-      //         );
-      //       }
-      //       return ListView.builder(
-      //         itemCount: _homeStore.adsList.length,
-      //         itemBuilder: (context, index) {
-      //           final ad = _homeStore.adsList[index];
-      //           return CardAd(ad: ad);
-      //         },
-      //       );
-      //     },
-      //   ),
-      // ),
+      body: _buildBody(),
     );
+  }
+
+  // body methods:--------------------------------------------------------------
+  Widget _buildBody() {
+    return Stack(
+      children: <Widget>[
+        _handleErrorMessage(),
+        _buildMainContent(),
+      ],
+    );
+  }
+
+  Observer _buildMainContent() {
+    return Observer(
+      builder: (context) {
+        return _homeStore.loading
+            ? CustomProgressIndicatorWidget()
+            : Material(child: _buildListView());
+      },
+    );
+  }
+
+  _buildListView() {
+    return _homeStore.adsList != null
+        ? ListView.separated(
+            itemCount: _homeStore.adsList!.ads!.length,
+            separatorBuilder: (context, position) {
+              return Divider();
+            },
+            itemBuilder: (context, position) {
+              return _buildListItem(position);
+            },
+          )
+        : const Center(
+            child: Text("Новости"),
+          );
+  }
+
+  Widget _buildListItem(int position) {
+    return ListTile(
+      dense: true,
+      leading: Icon(Icons.cloud_circle),
+      title: Text(
+        '${_homeStore.adsList?.ads?[position].title}',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+        // style: Theme.of(context).textTheme.subtitle1,
+      ),
+      subtitle: Text(
+        '${_homeStore.adsList?.ads?[position].text}',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+      ),
+    );
+  }
+
+  Widget _handleErrorMessage() {
+    return Observer(
+      builder: (context) {
+        if (_homeStore.errorStore.errorMessage.isNotEmpty) {
+          return _showErrorMessage(_homeStore.errorStore.errorMessage);
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  // General Methods:-----------------------------------------------------------
+  _showErrorMessage(String message) {
+    Future.delayed(const Duration(milliseconds: 0), () {
+      if (message.isNotEmpty) {
+        FlushbarHelper.createError(
+          message: message,
+          title: "Ошибка",
+          duration: Duration(seconds: 3),
+        ).show(context);
+      }
+    });
+
+    return const SizedBox.shrink();
   }
 }
 

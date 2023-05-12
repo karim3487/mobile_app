@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobile_app/stores/auth_store/auth_store.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/repository.dart';
 import '../../data/sharedpref/constants/preferences.dart';
-import '../../di/locator.dart';
 import '../../shared/colors.dart';
 import '../../utils/routes.dart';
 import '../../widgets/empty_app_bar.dart';
@@ -28,7 +27,15 @@ class _AuthPageState extends State<AuthPage> {
   late FocusNode _passwordFocusNode;
 
   //stores:---------------------------------------------------------------------
-  final _store = AuthStore(locator<Repository>());
+  late AuthStore _store;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // initializing stores
+    _store = Provider.of<AuthStore>(context);
+  }
 
   @override
   void initState() {

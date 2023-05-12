@@ -9,34 +9,56 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$HomeStore on _HomeStore, Store {
+  Computed<bool>? _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??=
+          Computed<bool>(() => super.loading, name: '_HomeStore.loading'))
+      .value;
+
+  late final _$fetchAdsFutureAtom =
+      Atom(name: '_HomeStore.fetchAdsFuture', context: context);
+
+  @override
+  ObservableFuture<AdList?> get fetchAdsFuture {
+    _$fetchAdsFutureAtom.reportRead();
+    return super.fetchAdsFuture;
+  }
+
+  @override
+  set fetchAdsFuture(ObservableFuture<AdList?> value) {
+    _$fetchAdsFutureAtom.reportWrite(value, super.fetchAdsFuture, () {
+      super.fetchAdsFuture = value;
+    });
+  }
+
   late final _$adsListAtom = Atom(name: '_HomeStore.adsList', context: context);
 
   @override
-  ObservableList<Ad> get adsList {
+  AdList? get adsList {
     _$adsListAtom.reportRead();
     return super.adsList;
   }
 
   @override
-  set adsList(ObservableList<Ad> value) {
+  set adsList(AdList? value) {
     _$adsListAtom.reportWrite(value, super.adsList, () {
       super.adsList = value;
     });
   }
 
-  late final _$isLoadingAtom =
-      Atom(name: '_HomeStore.isLoading', context: context);
+  late final _$successAtom = Atom(name: '_HomeStore.success', context: context);
 
   @override
-  bool get isLoading {
-    _$isLoadingAtom.reportRead();
-    return super.isLoading;
+  bool get success {
+    _$successAtom.reportRead();
+    return super.success;
   }
 
   @override
-  set isLoading(bool value) {
-    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
-      super.isLoading = value;
+  set success(bool value) {
+    _$successAtom.reportWrite(value, super.success, () {
+      super.success = value;
     });
   }
 
@@ -51,8 +73,10 @@ mixin _$HomeStore on _HomeStore, Store {
   @override
   String toString() {
     return '''
+fetchAdsFuture: ${fetchAdsFuture},
 adsList: ${adsList},
-isLoading: ${isLoading}
+success: ${success},
+loading: ${loading}
     ''';
   }
 }

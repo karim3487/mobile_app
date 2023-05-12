@@ -38,5 +38,5 @@ Future<void> setupLocator() async {
 
   // stores:--------------------------------------------------------------------
   locator.registerSingleton(AuthStore(locator<Repository>()));
-  locator.registerSingleton(HomeStore());
+  locator.registerSingleton(HomeStore(locator<Repository>()));
 }

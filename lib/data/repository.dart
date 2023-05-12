@@ -18,7 +18,7 @@ class Repository {
   Repository(this._sharedPrefsHelper, this._authApi, this._adApi);
 
   // Ad: ---------------------------------------------------------------------
-  Future<AdList> getPosts() async {
+  Future<AdList> getAds() async {
     return await _adApi.getAds().then((adsList) {
       return adsList;
     }).catchError((error) => throw error);

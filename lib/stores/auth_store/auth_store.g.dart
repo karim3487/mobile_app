@@ -79,6 +79,37 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
+  late final _$errorMessageAtom =
+      Atom(name: '_AuthStore.errorMessage', context: context);
+
+  @override
+  String get errorMessage {
+    _$errorMessageAtom.reportRead();
+    return super.errorMessage;
+  }
+
+  @override
+  set errorMessage(String value) {
+    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
+      super.errorMessage = value;
+    });
+  }
+
+  late final _$successAtom = Atom(name: '_AuthStore.success', context: context);
+
+  @override
+  bool get success {
+    _$successAtom.reportRead();
+    return super.success;
+  }
+
+  @override
+  set success(bool value) {
+    _$successAtom.reportWrite(value, super.success, () {
+      super.success = value;
+    });
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('_AuthStore.login', context: context);
 
@@ -130,6 +161,8 @@ email: ${email},
 password: ${password},
 isAuthenticated: ${isAuthenticated},
 isLoading: ${isLoading},
+errorMessage: ${errorMessage},
+success: ${success},
 canLogin: ${canLogin}
     ''';
   }

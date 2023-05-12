@@ -19,7 +19,7 @@ void main() async {
 
 class MobileApp extends StatelessWidget {
   final AuthStore _authStore = AuthStore(locator<Repository>());
-  final HomeStore _homeStore = HomeStore();
+  final HomeStore _homeStore = HomeStore(locator<Repository>());
 
   MobileApp({super.key});
 
