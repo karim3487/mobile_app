@@ -37,12 +37,13 @@ class MobileApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: Strings.appName,
             theme: ThemeData(
-              primaryColor: const Color.fromRGBO(254, 176, 61, 1),
+              // primaryColor: AppColors.orange[900],
+              primaryColor: Colors.black,
               scaffoldBackgroundColor: Colors.transparent,
               textTheme:
                   const TextTheme(titleLarge: TextStyle(color: Colors.white)),
-              appBarTheme: AppBarTheme(
-                backgroundColor: AppColors.orange[400],
+              appBarTheme: const AppBarTheme(
+                backgroundColor: AppColors.primary,
               ),
             ),
             routes: Routes.routes,
