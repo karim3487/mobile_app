@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:mobile_app/models/user.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../data/repository.dart';
+import '../../utils/dio/dio_error_util.dart';
+import '../error_store/error_store.dart';
 
 part 'auth_store.g.dart';
 
@@ -10,6 +12,9 @@ class AuthStore = _AuthStore with _$AuthStore;
 abstract class _AuthStore with Store {
   // repository instance
   final Repository _repository;
+
+  // store for handling errors
+  final ErrorStore errorStore = ErrorStore();
 
   // constructor:---------------------------------------------------------------
   _AuthStore(Repository repository) : _repository = repository {
@@ -20,6 +25,12 @@ abstract class _AuthStore with Store {
   }
 
 // store variables:-----------------------------------------------------------
+  static ObservableFuture<User?> emptyPostResponse =
+      ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<User?> loginFuture =
+      ObservableFuture<User?>(emptyPostResponse);
   @observable
   String email = '';
 
@@ -54,22 +65,24 @@ abstract class _AuthStore with Store {
   @action
   Future<void> login() async {
     isLoading = true;
-    try {
-      final result = await _repository.login(email, password);
-      isAuthenticated = true;
-      success = true;
-      print(result);
-    } catch (e) {
-      success = false;
-      debugPrint(e.toString());
-      errorMessage = "asd";
-    } finally {
-      isLoading = false;
-    }
+
+    final future = _repository.login(email, password);
+    loginFuture = ObservableFuture(future);
+    future.then((user) async {
+      _repository.saveIsLoggedIn(true);
+      this.isAuthenticated = true;
+      this.success = true;
+    }).catchError((error) {
+      errorStore.errorMessage = "Неверный логин или пароль";
+      this.isAuthenticated = false;
+      this.success = false;
+    });
+    isLoading = false;
   }
 
   @action
   void logout() {
     isAuthenticated = false;
+    _repository.saveIsLoggedIn(false);
   }
 }

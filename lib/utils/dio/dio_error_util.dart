@@ -22,9 +22,18 @@ class DioErrorUtil {
         case DioErrorType.sendTimeout:
           errorDescription = "Send timeout in connection with API server";
           break;
+        case DioErrorType.badCertificate:
+          errorDescription = "badCertificate";
+          break;
+        case DioErrorType.connectionError:
+          errorDescription = "connectionError";
+          break;
+        case DioErrorType.unknown:
+          errorDescription = "unknown";
+          break;
       }
     } else {
-      errorDescription = "Unexpected error occured";
+      errorDescription = "Unexpected error occurred";
     }
     return errorDescription;
   }

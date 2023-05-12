@@ -11,7 +11,7 @@ abstract class _ErrorStore with Store {
   // constructor:---------------------------------------------------------------
   _ErrorStore() {
     _disposers = [
-      reaction((_) => errorMessage, reset, delay: 2000),
+      reaction((_) => errorMessage, reset, delay: 200),
     ];
   }
 

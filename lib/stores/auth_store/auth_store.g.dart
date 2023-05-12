@@ -16,6 +16,22 @@ mixin _$AuthStore on _AuthStore, Store {
           Computed<bool>(() => super.canLogin, name: '_AuthStore.canLogin'))
       .value;
 
+  late final _$loginFutureAtom =
+      Atom(name: '_AuthStore.loginFuture', context: context);
+
+  @override
+  ObservableFuture<User?> get loginFuture {
+    _$loginFutureAtom.reportRead();
+    return super.loginFuture;
+  }
+
+  @override
+  set loginFuture(ObservableFuture<User?> value) {
+    _$loginFutureAtom.reportWrite(value, super.loginFuture, () {
+      super.loginFuture = value;
+    });
+  }
+
   late final _$emailAtom = Atom(name: '_AuthStore.email', context: context);
 
   @override
@@ -157,6 +173,7 @@ mixin _$AuthStore on _AuthStore, Store {
   @override
   String toString() {
     return '''
+loginFuture: ${loginFuture},
 email: ${email},
 password: ${password},
 isAuthenticated: ${isAuthenticated},

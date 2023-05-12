@@ -59,6 +59,7 @@ class _AuthPageState extends State<AuthPage> {
         decoration: const BoxDecoration(gradient: GradientBd.gradient),
         child: Stack(
           children: <Widget>[
+            _handleErrorMessage(),
             Center(child: _buildRightSide()),
             Observer(
               builder: (context) {
@@ -173,10 +174,12 @@ class _AuthPageState extends State<AuthPage> {
           ),
           onPressed: () async {
             if (_store.canLogin) {
-              // DeviceUtils.hideKeyboard(context);
               _passwordFocusNode.unfocus();
-              _store.login();
-              _showErrorMessage("Неверный логин или пароль");
+              try {
+                _store.login();
+              } catch (e) {
+                print(e);
+              }
             } else {
               _showErrorMessage("Пожалуйста, заполните все поля");
             }
@@ -197,6 +200,18 @@ class _AuthPageState extends State<AuthPage> {
     });
 
     return Container();
+  }
+
+  Widget _handleErrorMessage() {
+    return Observer(
+      builder: (context) {
+        if (_store.errorStore.errorMessage.isNotEmpty) {
+          return _showErrorMessage(_store.errorStore.errorMessage);
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
   }
 
   // General Methods:-----------------------------------------------------------
