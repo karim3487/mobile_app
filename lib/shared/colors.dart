@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 class AppColors {
   AppColors._(); // this basically makes it so you can't instantiate this class
   static const Color primary = Color.fromRGBO(255, 138, 0, 1);
+  static const Color secondary = Color.fromRGBO(255, 203, 14, 1);
 
   static const Map<int, Color> orange = <int, Color>{
     50: Color(0xFFFCF2E7),

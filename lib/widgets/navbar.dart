@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/widgets/dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,55 +33,84 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          UserAccountsDrawerHeader(
-            accountName: Text(
-                "${_userStore.user?.firstName} ${_userStore.user?.lastName}"),
-            accountEmail: Text("${_userStore.user?.email}"),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.asset('assets/images/img_avatar.jpg'),
+      child: Container(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text(
+                "${_userStore.user?.firstName} ${_userStore.user?.lastName}",
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              accountEmail: Text("${_userStore.user?.email}"),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: AppColors.orange[800],
+                child: ClipOval(
+                  child: Image.asset('assets/images/img_avatar.png'),
+                ),
+              ),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/img_header_bd.jpg"),
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-            decoration: const BoxDecoration(color: AppColors.primary),
-          ),
-          ListTile(
-            leading: const Icon(Icons.menu_book_outlined),
-            title: const Text("Методические материалы"),
-            onTap: () => print('Методические материалы'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.group),
-            title: const Text("Преподаватели"),
-            onTap: () => print('Преподы'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.location_on_sharp),
-            title: const Text("Карта кафедры"),
-            onTap: () => print('Карта'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.email),
-            title: const Text("Сообщения"),
-            onTap: () => print('Сообщения'),
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text("Выход"),
-            onTap: () {
-              print('Выход');
-              SharedPreferences.getInstance().then((preference) {
-                preference.setBool(Preferences.isAuthenticated, false);
-                // preference.getBool(Preferences.isAuthenticated);
-                Navigator.of(context).pushReplacementNamed(Routes.login);
-              });
-            },
-          ),
-        ],
+            ListTile(
+              leading: const Icon(Icons.menu_book_outlined),
+              title: const Text("Методические материалы"),
+              onTap: () => print('Методические материалы'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.group),
+              title: const Text("Преподаватели"),
+              onTap: () => print('Преподы'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.location_on_sharp),
+              title: const Text("Карта кафедры"),
+              onTap: () => print('Карта'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.email),
+              title: const Text("Сообщения"),
+              onTap: () => print('Сообщения'),
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Выход"),
+              onTap: () {
+                print('Выход');
+                _showLogoutDialog();
+              },
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void _showLogoutDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomDialog(
+            title: "Выход",
+            description: "Вы уверены, что хотите выйти?",
+            cancel: "Отмена",
+            cancelColor: Colors.black26,
+            ok: "Выход",
+            okColor: Colors.red[600],
+            okFun: () {
+              SharedPreferences.getInstance().then(
+                (preference) {
+                  preference.setBool(Preferences.isAuthenticated, false);
+                  Navigator.of(context).pushReplacementNamed(Routes.login);
+                },
+              );
+            },
+          );
+        });
   }
 }

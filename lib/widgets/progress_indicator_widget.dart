@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/shared/colors.dart';
 
 class CustomProgressIndicatorWidget extends StatelessWidget {
   const CustomProgressIndicatorWidget({
@@ -19,6 +20,7 @@ class CustomProgressIndicatorWidget extends StatelessWidget {
             height: 100,
             width: 100,
             child: Card(
+              color: AppColors.secondary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: const Padding(
