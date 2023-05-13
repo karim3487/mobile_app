@@ -33,4 +33,25 @@ class Repository {
       _sharedPrefsHelper.saveIsLoggedIn(value);
 
   Future<bool> get isAuthenticated => _sharedPrefsHelper.isAuthenticated;
+
+  // User:----------------------------------------------------------------------
+  Future<void> saveUser(User user) async {
+    _sharedPrefsHelper.saveEmail(user.email!);
+    _sharedPrefsHelper.saveFirstName(user.firstName!);
+    _sharedPrefsHelper.saveLastName(user.lastName!);
+    _sharedPrefsHelper.saveSurname(user.surname);
+    _sharedPrefsHelper.saveProfession(user.profession!);
+    _sharedPrefsHelper.saveAuthToken(user.token!);
+  }
+
+  Future<User> getUser() async {
+    return User(
+      email: await _sharedPrefsHelper.getEmail(),
+      firstName: await _sharedPrefsHelper.getFirstName(),
+      lastName: await _sharedPrefsHelper.getLastName(),
+      surname: await _sharedPrefsHelper.getSurname(),
+      profession: await _sharedPrefsHelper.getProfession(),
+      token: await _sharedPrefsHelper.getAuthToken(),
+    );
+  }
 }

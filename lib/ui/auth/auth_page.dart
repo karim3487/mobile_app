@@ -2,7 +2,7 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobile_app/stores/auth_store/auth_store.dart';
+import 'package:mobile_app/stores/auth/auth_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,7 +63,7 @@ class _AuthPageState extends State<AuthPage> {
             Center(child: _buildRightSide()),
             Observer(
               builder: (context) {
-                return _store.isAuthenticated
+                return _store.success
                     ? navigate(context)
                     : _showErrorMessage("");
               },

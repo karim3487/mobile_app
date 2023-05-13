@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
+import '../stores/user/user_store.dart';
 import '../ui/auth/auth_page.dart';
 import '../data/repository.dart';
 import '../ui/home/home_page.dart';
 import '../shared/colors.dart';
 import '../di/locator.dart';
 import '../shared/strings.dart';
-import '../stores/auth_store/auth_store.dart';
-import '../stores/home_store/home_store.dart';
+import '../stores/auth/auth_store.dart';
+import '../stores/home/home_store.dart';
 import '../utils/routes.dart';
 
 void main() async {
@@ -19,6 +20,7 @@ void main() async {
 
 class MobileApp extends StatelessWidget {
   final AuthStore _authStore = AuthStore(locator<Repository>());
+  final UserStore _userStore = UserStore(locator<Repository>());
   final HomeStore _homeStore = HomeStore(locator<Repository>());
 
   MobileApp({super.key});
@@ -28,6 +30,7 @@ class MobileApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<AuthStore>(create: (_) => _authStore),
+        Provider<UserStore>(create: (_) => _userStore),
         Provider<HomeStore>(create: (_) => _homeStore),
       ],
       child: Observer(

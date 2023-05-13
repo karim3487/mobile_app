@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/user.dart';
 import 'constants/preferences.dart';
 
 class SharedPreferenceHelper {
@@ -20,6 +21,10 @@ class SharedPreferenceHelper {
     return _sharedPreference.setString(Preferences.authToken, authToken);
   }
 
+  Future<String?> getAuthToken() async {
+    return _sharedPreference.getString(Preferences.authToken);
+  }
+
   Future<bool> removeAuthToken() async {
     return _sharedPreference.remove(Preferences.authToken);
   }
@@ -31,5 +36,49 @@ class SharedPreferenceHelper {
 
   Future<bool> saveIsLoggedIn(bool value) async {
     return _sharedPreference.setBool(Preferences.isAuthenticated, value);
+  }
+
+  // User:----------------------------------------------------------------------
+  Future<bool> saveEmail(String email) async {
+    return _sharedPreference.setString(Preferences.email, email);
+  }
+
+  Future<bool> saveFirstName(String firstName) async {
+    return _sharedPreference.setString(Preferences.firstName, firstName);
+  }
+
+  Future<bool> saveLastName(String lastName) async {
+    return _sharedPreference.setString(Preferences.lastName, lastName);
+  }
+
+  Future<bool> saveSurname(String? surname) async {
+    if (surname != null) {
+      return _sharedPreference.setString(Preferences.surname, surname);
+    }
+    return _sharedPreference.setString(Preferences.surname, "");
+  }
+
+  Future<bool> saveProfession(String profession) async {
+    return _sharedPreference.setString(Preferences.profession, profession);
+  }
+
+  Future<String?> getEmail() async {
+    return _sharedPreference.getString(Preferences.email);
+  }
+
+  Future<String?> getFirstName() async {
+    return _sharedPreference.getString(Preferences.firstName);
+  }
+
+  Future<String?> getLastName() async {
+    return _sharedPreference.getString(Preferences.lastName);
+  }
+
+  Future<String?> getSurname() async {
+    return _sharedPreference.getString(Preferences.surname);
+  }
+
+  Future<String?> getProfession() async {
+    return _sharedPreference.getString(Preferences.profession);
   }
 }

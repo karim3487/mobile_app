@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 import '../../data/repository.dart';
 import '../../models/ad_list.dart';
 import '../../utils/dio/dio_error_util.dart';
-import '../error_store/error_store.dart';
+import '../error/error_store.dart';
 
 part 'home_store.g.dart';
 

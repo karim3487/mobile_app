@@ -1,9 +1,9 @@
 import 'package:mobile_app/models/user.dart';
 import 'package:mobx/mobx.dart';
-
 import '../../data/repository.dart';
-import '../../utils/dio/dio_error_util.dart';
-import '../error_store/error_store.dart';
+import '../error/error_store.dart';
+import '../user/user_store.dart';
+// import '../../utils/dio/dio_error_util.dart';
 
 part 'auth_store.g.dart';
 
@@ -18,19 +18,32 @@ abstract class _AuthStore with Store {
 
   // constructor:---------------------------------------------------------------
   _AuthStore(Repository repository) : _repository = repository {
+    // setting up disposers
+    _setupDisposers();
+
     // checking if user is logged in
     repository.isAuthenticated.then((value) {
       isAuthenticated = value;
     });
   }
 
-// store variables:-----------------------------------------------------------
+  // disposers:-----------------------------------------------------------------
+  late List<ReactionDisposer> _disposers;
+
+  void _setupDisposers() {
+    _disposers = [
+      reaction((_) => success, (_) => success = false, delay: 200),
+    ];
+  }
+
+  // store variables:-----------------------------------------------------------
   static ObservableFuture<User?> emptyPostResponse =
       ObservableFuture.value(null);
 
   @observable
   ObservableFuture<User?> loginFuture =
       ObservableFuture<User?>(emptyPostResponse);
+
   @observable
   String email = '';
 
@@ -70,6 +83,8 @@ abstract class _AuthStore with Store {
     loginFuture = ObservableFuture(future);
     future.then((user) async {
       _repository.saveIsLoggedIn(true);
+      _repository.saveUser(user);
+
       this.isAuthenticated = true;
       this.success = true;
     }).catchError((error) {
