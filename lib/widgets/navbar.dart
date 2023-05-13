@@ -45,9 +45,8 @@ class _NavBarState extends State<NavBar> {
               accountEmail: Text("${_userStore.user?.email}"),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: AppColors.orange[800],
-                child: ClipOval(
-                  child: Image.asset('assets/images/img_avatar.png'),
-                ),
+                backgroundImage:
+                    const AssetImage('assets/images/img_avatar.jpg'),
               ),
               decoration: const BoxDecoration(
                 image: DecorationImage(
