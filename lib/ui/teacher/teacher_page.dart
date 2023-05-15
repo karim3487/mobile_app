@@ -53,7 +53,6 @@ class _TeacherPageState extends State<TeacherPage> {
     return Container(
       decoration: const BoxDecoration(gradient: GradientBd.gradient),
       child: Scaffold(
-        drawer: const NavBar(),
         appBar: AppBar(
           title: const Text("Учителя"),
           leading: IconButton(
