@@ -21,7 +21,7 @@ class User {
       lastName: json['last_name'],
       surname: json['surname'],
       profession: json['profession'],
-      token: json['profession'],
+      token: json['token'],
     );
   }
 }

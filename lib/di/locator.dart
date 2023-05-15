@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobile_app/data/api/apis/file/file_api.dart';
 import 'package:mobile_app/data/api/apis/teachers/teacher_api.dart';
+import 'package:mobile_app/stores/files/file_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../stores/teacher/teacher_store.dart';
 import '../stores/user/user_store.dart';
@@ -32,6 +34,7 @@ Future<void> setupLocator() async {
   locator.registerSingleton(AdApi(locator<DioClient>()));
   locator.registerSingleton(AuthApi(locator<DioClient>()));
   locator.registerSingleton(TeacherApi(locator<DioClient>()));
+  locator.registerSingleton(FileApi(locator<DioClient>()));
 
   // repository:----------------------------------------------------------------
   locator.registerSingleton(Repository(
@@ -39,6 +42,7 @@ Future<void> setupLocator() async {
     locator<AuthApi>(),
     locator<AdApi>(),
     locator<TeacherApi>(),
+    locator<FileApi>(),
   ));
 
   // stores:--------------------------------------------------------------------
@@ -46,4 +50,5 @@ Future<void> setupLocator() async {
   locator.registerSingleton(UserStore(locator<Repository>()));
   locator.registerSingleton(HomeStore(locator<Repository>()));
   locator.registerSingleton(TeacherStore(locator<Repository>()));
+  locator.registerSingleton(FileStore(locator<Repository>()));
 }

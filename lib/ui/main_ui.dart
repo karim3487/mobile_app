@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
+import '../stores/files/file_store.dart';
 import '../stores/teacher/teacher_store.dart';
 import '../stores/user/user_store.dart';
 import '../ui/auth/auth_page.dart';
@@ -24,6 +25,7 @@ class MobileApp extends StatelessWidget {
   final UserStore _userStore = UserStore(locator<Repository>());
   final HomeStore _homeStore = HomeStore(locator<Repository>());
   final TeacherStore _teacherStore = TeacherStore(locator<Repository>());
+  final FileStore _fileStore = FileStore(locator<Repository>());
 
   MobileApp({super.key});
 
@@ -35,6 +37,7 @@ class MobileApp extends StatelessWidget {
         Provider<UserStore>(create: (_) => _userStore),
         Provider<HomeStore>(create: (_) => _homeStore),
         Provider<TeacherStore>(create: (_) => _teacherStore),
+        Provider<FileStore>(create: (_) => _fileStore),
       ],
       child: Observer(
         name: 'global-observer',

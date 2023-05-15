@@ -58,7 +58,9 @@ class _NavBarState extends State<NavBar> {
             ListTile(
               leading: const Icon(Icons.menu_book_outlined),
               title: const Text("Методические материалы"),
-              onTap: () => print('Методические материалы'),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.files);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.group),

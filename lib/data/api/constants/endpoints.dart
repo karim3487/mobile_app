@@ -16,6 +16,9 @@ class Endpoints {
   // teachers endpoints
   static const String getTeachers = "$baseUrl/teachers";
 
+  // teachers endpoints
+  static const String getFiles = "$baseUrl/attachments";
+
   // login endpoints
   static const String loginWithEmail = "$baseUrl/auth/login/";
 }
