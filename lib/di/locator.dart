@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobile_app/data/api/apis/teachers/teacher_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../stores/teacher/teacher_store.dart';
 import '../stores/user/user_store.dart';
 import 'modules/NetworkModule.dart';
 import '../data/api/api_client.dart';
@@ -29,16 +31,19 @@ Future<void> setupLocator() async {
   locator.registerSingleton(RestClient());
   locator.registerSingleton(AdApi(locator<DioClient>()));
   locator.registerSingleton(AuthApi(locator<DioClient>()));
+  locator.registerSingleton(TeacherApi(locator<DioClient>()));
 
   // repository:----------------------------------------------------------------
   locator.registerSingleton(Repository(
     locator<SharedPreferenceHelper>(),
     locator<AuthApi>(),
     locator<AdApi>(),
+    locator<TeacherApi>(),
   ));
 
   // stores:--------------------------------------------------------------------
   locator.registerSingleton(AuthStore(locator<Repository>()));
   locator.registerSingleton(UserStore(locator<Repository>()));
   locator.registerSingleton(HomeStore(locator<Repository>()));
+  locator.registerSingleton(TeacherStore(locator<Repository>()));
 }

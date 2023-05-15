@@ -63,7 +63,9 @@ class _NavBarState extends State<NavBar> {
             ListTile(
               leading: const Icon(Icons.group),
               title: const Text("Преподаватели"),
-              onTap: () => print('Преподы'),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.teachers);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.location_on_sharp),

@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:mobile_app/models/teacher_list.dart';
+
 import 'api/apis/ads/ad_api.dart';
 import 'api/apis/auth/auth_api.dart';
 import '../../data/sharedpref/shared_preference_helper.dart';
 import '../../models/user.dart';
 import '../models/ad_list.dart';
+import 'api/apis/teachers/teacher_api.dart';
 
 class Repository {
   // shared pref object
@@ -13,14 +16,23 @@ class Repository {
   // api object
   final AuthApi _authApi;
   final AdApi _adApi;
+  final TeacherApi _teacherApi;
 
   // constructor
-  Repository(this._sharedPrefsHelper, this._authApi, this._adApi);
+  Repository(
+      this._sharedPrefsHelper, this._authApi, this._adApi, this._teacherApi);
 
   // Ad: ---------------------------------------------------------------------
   Future<AdList> getAds() async {
     return await _adApi.getAds().then((adsList) {
       return adsList;
+    }).catchError((error) => throw error);
+  }
+
+  // Teacher: ----------------------------------------------------------------
+  Future<TeacherList> getTeachers() async {
+    return await _teacherApi.getTeachers().then((teacherList) {
+      return teacherList;
     }).catchError((error) => throw error);
   }
 
