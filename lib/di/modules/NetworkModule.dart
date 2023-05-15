@@ -24,13 +24,14 @@ abstract class NetworkModule {
           onRequest: (RequestOptions options,
               RequestInterceptorHandler handler) async {
             // getting token
-            // var token = await sharedPrefHelper.authToken;
+            var token = await sharedPrefHelper.authToken;
 
-            // if (token != null) {
-            //   options.headers.putIfAbsent('Authorization', () => token);
-            // } else {
-            //   print('Auth token is null');
-            // }
+            if (token != null) {
+              options.headers
+                  .putIfAbsent('Authorization', () => 'Token ${token}');
+            } else {
+              print('Auth token is null');
+            }
 
             return handler.next(options);
           },
