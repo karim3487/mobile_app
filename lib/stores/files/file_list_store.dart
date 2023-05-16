@@ -7,9 +7,9 @@ import '../error/error_store.dart';
 
 part 'file_list_store.g.dart';
 
-class FileStore = _FileStore with _$FileStore;
+class FileListStore = _FileListStore with _$FileListStore;
 
-abstract class _FileStore with Store {
+abstract class _FileListStore with Store {
   // repository instance
   final Repository _repository;
 
@@ -17,7 +17,7 @@ abstract class _FileStore with Store {
   final ErrorStore errorStore = ErrorStore();
 
   // constructor:---------------------------------------------------------------
-  _FileStore(Repository repository) : _repository = repository;
+  _FileListStore(Repository repository) : _repository = repository;
 
   // store variables:-----------------------------------------------------------
   static ObservableFuture<FileList?> emptyPostResponse =

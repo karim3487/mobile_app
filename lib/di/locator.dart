@@ -50,5 +50,5 @@ Future<void> setupLocator() async {
   locator.registerSingleton(UserStore(locator<Repository>()));
   locator.registerSingleton(HomeStore(locator<Repository>()));
   locator.registerSingleton(TeacherStore(locator<Repository>()));
-  locator.registerSingleton(FileStore(locator<Repository>()));
+  locator.registerSingleton(FileListStore(locator<Repository>()));
 }

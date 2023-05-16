@@ -8,16 +8,16 @@ part of 'file_list_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$FileStore on _FileStore, Store {
+mixin _$FileListStore on _FileListStore, Store {
   Computed<bool>? _$loadingComputed;
 
   @override
   bool get loading => (_$loadingComputed ??=
-          Computed<bool>(() => super.loading, name: '_FileStore.loading'))
+          Computed<bool>(() => super.loading, name: '_FileListStore.loading'))
       .value;
 
   late final _$fetchFilesFutureAtom =
-      Atom(name: '_FileStore.fetchFilesFuture', context: context);
+      Atom(name: '_FileListStore.fetchFilesFuture', context: context);
 
   @override
   ObservableFuture<FileList?> get fetchFilesFuture {
@@ -33,7 +33,7 @@ mixin _$FileStore on _FileStore, Store {
   }
 
   late final _$fileListAtom =
-      Atom(name: '_FileStore.fileList', context: context);
+      Atom(name: '_FileListStore.fileList', context: context);
 
   @override
   FileList? get fileList {
@@ -48,7 +48,8 @@ mixin _$FileStore on _FileStore, Store {
     });
   }
 
-  late final _$successAtom = Atom(name: '_FileStore.success', context: context);
+  late final _$successAtom =
+      Atom(name: '_FileListStore.success', context: context);
 
   @override
   bool get success {
@@ -64,7 +65,7 @@ mixin _$FileStore on _FileStore, Store {
   }
 
   late final _$getFilesAsyncAction =
-      AsyncAction('_FileStore.getFiles', context: context);
+      AsyncAction('_FileListStore.getFiles', context: context);
 
   @override
   Future<void> getFiles() {

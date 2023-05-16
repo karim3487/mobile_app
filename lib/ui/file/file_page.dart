@@ -17,7 +17,7 @@ class FilePage extends StatefulWidget {
 }
 
 class _FilePageState extends State<FilePage> {
-  late FileStore _store;
+  late FileListStore _store;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _FilePageState extends State<FilePage> {
     super.didChangeDependencies();
 
     // initializing stores
-    _store = Provider.of<FileStore>(context);
+    _store = Provider.of<FileListStore>(context);
 
     // check to see if already called api
     if (!_store.loading) {
