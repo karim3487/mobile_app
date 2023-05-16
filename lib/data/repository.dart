@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:mobile_app/models/file_list.dart';
 import 'package:mobile_app/models/teacher_list.dart';
@@ -42,6 +43,12 @@ class Repository {
   // Teacher: ----------------------------------------------------------------
   Future<FileList> getFiles() async {
     return await _fileApi.getFiles().then((fileList) {
+      return fileList;
+    }).catchError((error) => throw error);
+  }
+
+  Future<File> downloadFile(String url, String savePath) async {
+    return await _fileApi.downloadFile(url, savePath).then((fileList) {
       return fileList;
     }).catchError((error) => throw error);
   }

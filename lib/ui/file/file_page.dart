@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/colors.dart';
 import '../../stores/files/file_list_store.dart';
+import '../../stores/files/file_store.dart';
 import '../../widgets/navbar.dart';
 import '../../widgets/progress_indicator_widget.dart';
 
@@ -105,6 +107,7 @@ class _FilePageState extends State<FilePage> {
   }
 
   _buildCard(int position) {
+    FileStore _fileStore = FileStore(_store.fileList!.files![position].fileUrl);
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -113,7 +116,15 @@ class _FilePageState extends State<FilePage> {
         subtitle: Text(
           "${(_store.fileList!.files![position].size / 1000).toString()} MB",
         ),
-        onTap: () {},
+        onTap: () async {
+          // final uri = Uri.parse(_store.fileList!.files![position].fileUrl);
+          // if (await canLaunchUrl(uri)) {
+          //   await launchUrl(uri);
+          // } else {
+          //   throw 'Could not launch';
+          // }
+          _fileStore.uploadFile();
+        },
       ),
     );
   }

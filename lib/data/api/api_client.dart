@@ -104,4 +104,30 @@ class DioClient {
       throw e;
     }
   }
+
+  // Download:----------------------------------------------------------------
+  Future<dynamic> download(
+    String uri,
+    String savePath, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    try {
+      final Response response = await _dio.download(
+        uri,
+        savePath,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  }
 }
