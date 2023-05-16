@@ -106,7 +106,15 @@ class _FilePageState extends State<FilePage> {
 
   _buildCard(int position) {
     return Card(
-      child: Text(_store.fileList!.files![position].title),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: ListTile(
+        title: Text(_store.fileList!.files![position].title),
+        subtitle: Text(
+          "${(_store.fileList!.files![position].size / 1000).toString()} MB",
+        ),
+        onTap: () {},
+      ),
     );
   }
 
