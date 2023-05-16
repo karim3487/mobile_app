@@ -5,7 +5,7 @@ import '../../data/repository.dart';
 import '../../utils/dio/dio_error_util.dart';
 import '../error/error_store.dart';
 
-part 'file_store.g.dart';
+part 'file_list_store.g.dart';
 
 class FileStore = _FileStore with _$FileStore;
 

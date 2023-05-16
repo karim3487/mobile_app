@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobile_app/data/api/apis/file/file_api.dart';
 import 'package:mobile_app/data/api/apis/teachers/teacher_api.dart';
-import 'package:mobile_app/stores/files/file_store.dart';
+import 'package:mobile_app/stores/files/file_list_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../stores/teacher/teacher_store.dart';
 import '../stores/user/user_store.dart';

@@ -5,7 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 import '../../shared/colors.dart';
-import '../../stores/files/file_store.dart';
+import '../../stores/files/file_list_store.dart';
 import '../../widgets/navbar.dart';
 import '../../widgets/progress_indicator_widget.dart';
 
