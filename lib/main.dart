@@ -1,32 +1,26 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:mobile_app/views/landing.dart';
+import 'package:flutter/services.dart';
+import 'ui/main_ui.dart';
+import 'di/locator.dart';
 
-import 'colors.dart';
-
-void main() {
-  runApp(const MobileApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setPreferredOrientations();
+  await setupLocator();
+  return runZonedGuarded(() async {
+    runApp(MobileApp());
+  }, (error, stack) {
+    print(stack);
+    print(error);
+  });
 }
 
-class MobileApp extends StatelessWidget {
-  const MobileApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: "Кафедра О7",
-      theme: ThemeData(
-        primaryColor: const Color.fromRGBO(254, 176, 61, 1),
-        scaffoldBackgroundColor: Colors.transparent,
-        textTheme: const TextTheme(titleLarge: TextStyle(color: Colors.white)),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.appBarColor,
-        ),
-      ),
-      home: Container(
-        decoration: GradientBd.dec,
-        child: const LandingPage(),
-      ),
-    );
-  }
+Future<void> setPreferredOrientations() {
+  return SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
+  ]);
 }
