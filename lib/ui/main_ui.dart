@@ -52,7 +52,7 @@ class MobileApp extends StatelessWidget {
               textTheme:
                   const TextTheme(titleLarge: TextStyle(color: Colors.white)),
               appBarTheme: const AppBarTheme(
-                backgroundColor: AppColors.primary,
+                backgroundColor: AppColors.secondary,
               ),
             ),
             routes: Routes.routes,

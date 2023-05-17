@@ -41,15 +41,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: GradientBd.gradient),
-      child: Scaffold(
-        drawer: NavBar(),
-        appBar: AppBar(
-          title: const Text("Новости"),
-        ),
-        body: _buildBody(),
+    return Scaffold(
+      drawer: NavBar(),
+      appBar: AppBar(
+        title: const Text("Новости"),
       ),
+      body: _buildBody(),
     );
   }
 
@@ -78,13 +75,13 @@ class _HomePageState extends State<HomePage> {
   _buildListView() {
     return _homeStore.adsList != null
         ? Container(
-            decoration: const BoxDecoration(gradient: GradientBd.gradient),
+            color: AppColors.primary,
             child: ListView.separated(
               padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
               itemCount: _homeStore.adsList!.ads!.length,
               separatorBuilder: (context, position) {
                 return const SizedBox(
-                  height: 10,
+                  height: 5,
                 );
               },
               itemBuilder: (context, position) {
@@ -102,8 +99,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCard(int position) {
-    return SizedBox(
-      // height: 130,
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      elevation: 3,
       child: ExpansionTile(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         collapsedShape:

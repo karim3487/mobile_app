@@ -56,7 +56,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget _buildBody() {
     return Material(
       child: Container(
-        decoration: const BoxDecoration(gradient: GradientBd.gradient),
+        color: AppColors.primary,
         child: Stack(
           children: <Widget>[
             _handleErrorMessage(),
@@ -90,15 +90,7 @@ class _AuthPageState extends State<AuthPage> {
           // mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Image.asset('assets/images/logo.png'),
-            const SizedBox(height: 24.0),
-            const Text(
-              'БГТУ "Военмех" им Д.Ф. Устинова',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 50.0),
+            const SizedBox(height: 16.0),
             _buildUserIdField(),
             _buildPasswordField(),
             _buildSignInButton(),
@@ -113,10 +105,10 @@ class _AuthPageState extends State<AuthPage> {
       builder: (context) {
         return TextFieldWidget(
           padding: const EdgeInsets.only(left: 8, right: 8),
-          hint: "Email",
+          hint: "E-mail",
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
-          iconColor: Colors.white,
+          iconColor: Color.fromARGB(255, 40, 99, 157),
           textController: _userEmailController,
           inputAction: TextInputAction.next,
           autoFocus: false,
@@ -139,7 +131,7 @@ class _AuthPageState extends State<AuthPage> {
           isObscure: true,
           padding: const EdgeInsets.only(left: 8, right: 8, top: 16),
           icon: Icons.lock,
-          iconColor: Colors.white,
+          iconColor: Color.fromARGB(255, 40, 99, 157),
           textController: _passwordController,
           focusNode: _passwordFocusNode,
           onChanged: (value) {
@@ -152,20 +144,20 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _buildSignInButton() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
       child: SizedBox(
-        height: 50,
+        height: 55,
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(AppColors.orange[700]),
+            backgroundColor: MaterialStateProperty.all(AppColors.secondary),
             overlayColor:
                 MaterialStatePropertyAll(Theme.of(context).primaryColor),
             elevation: MaterialStateProperty.all(2),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: const BorderSide(color: Colors.white, width: 3)),
+                borderRadius: BorderRadius.circular(30),
+              ),
             ),
           ),
           child: const Text(

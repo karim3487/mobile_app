@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/shared/colors.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final IconData icon;
@@ -31,21 +32,30 @@ class TextFieldWidget extends StatelessWidget {
         maxLength: 25,
         keyboardType: this.inputType,
         style: const TextStyle(
-            color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+            color: Color.fromARGB(255, 62, 122, 181),
+            fontSize: 16,
+            fontWeight: FontWeight.bold),
         decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
             hintText: this.hint,
             hintStyle: const TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white54),
+                color: Color.fromARGB(255, 178, 205, 240),
+                fontWeight: FontWeight.normal),
             counterText: '',
             focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 3),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
+                borderSide: BorderSide(color: AppColors.secondary, width: 3),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
             enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.white54, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            prefixIcon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            prefixIcon: this.isIcon
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Icon(this.icon, color: iconColor),
+                  )
+                : null),
       ),
     );
   }

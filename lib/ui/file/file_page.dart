@@ -40,21 +40,18 @@ class _FilePageState extends State<FilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: GradientBd.gradient),
-      child: Scaffold(
-        drawer: const NavBar(),
-        appBar: AppBar(
-          title: const Text("Методические материалы"),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+    return Scaffold(
+      drawer: const NavBar(),
+      appBar: AppBar(
+        title: const Text("Методические материалы"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
-        body: _buildBody(),
       ),
+      body: _buildBody(),
     );
   }
 
@@ -82,7 +79,7 @@ class _FilePageState extends State<FilePage> {
   _buildListView() {
     return _store.fileList != null
         ? Container(
-            decoration: const BoxDecoration(gradient: GradientBd.gradient),
+            color: AppColors.primary,
             child: ListView.separated(
               padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
               itemCount: _store.fileList!.files!.length,
@@ -151,12 +148,9 @@ class FileCard extends StatelessWidget {
       onTap: () {
         fileStore.uploadFile();
       },
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        elevation: 3,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
@@ -164,7 +158,8 @@ class FileCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  color: Color.fromARGB(255, 110, 197, 129),
+                  color: Color.fromARGB(255, 220, 137, 137),
+                  // color: Color.fromARGB(255, 135, 196, 149),
                   width: 60,
                   height: 60,
                   alignment: Alignment.center,
