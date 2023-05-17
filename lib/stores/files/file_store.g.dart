@@ -21,6 +21,12 @@ mixin _$FileStore on _FileStore, Store {
   String get ext => (_$extComputed ??=
           Computed<String>(() => super.ext, name: '_FileStore.ext'))
       .value;
+  Computed<Color>? _$colorComputed;
+
+  @override
+  Color get color => (_$colorComputed ??=
+          Computed<Color>(() => super.color, name: '_FileStore.color'))
+      .value;
 
   late final _$isUploadingAtom =
       Atom(name: '_FileStore.isUploading', context: context);
@@ -54,12 +60,28 @@ mixin _$FileStore on _FileStore, Store {
     });
   }
 
+  late final _$successDownloadAtom =
+      Atom(name: '_FileStore.successDownload', context: context);
+
+  @override
+  bool get successDownload {
+    _$successDownloadAtom.reportRead();
+    return super.successDownload;
+  }
+
+  @override
+  set successDownload(bool value) {
+    _$successDownloadAtom.reportWrite(value, super.successDownload, () {
+      super.successDownload = value;
+    });
+  }
+
   late final _$uploadFileAsyncAction =
       AsyncAction('_FileStore.uploadFile', context: context);
 
   @override
-  Future<void> uploadFile() {
-    return _$uploadFileAsyncAction.run(() => super.uploadFile());
+  Future<void> uploadFile(dynamic Function(String) callback) {
+    return _$uploadFileAsyncAction.run(() => super.uploadFile(callback));
   }
 
   @override
@@ -67,8 +89,10 @@ mixin _$FileStore on _FileStore, Store {
     return '''
 isUploading: ${isUploading},
 progress: ${progress},
+successDownload: ${successDownload},
 fileSize: ${fileSize},
-ext: ${ext}
+ext: ${ext},
+color: ${color}
     ''';
   }
 }

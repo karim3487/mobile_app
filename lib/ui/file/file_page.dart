@@ -155,7 +155,12 @@ class FileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        fileStore.uploadFile();
+        fileStore.uploadFile((mess) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(mess),
+            backgroundColor: Colors.green[500],
+          ));
+        });
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -210,7 +215,7 @@ class FileCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                         ],
                       );
                     },
@@ -247,4 +252,9 @@ class FileCard extends StatelessWidget {
       ),
     );
   }
+
+  // showSnackBar(String message) {
+  // final snackBar = SnackBar(content: Text(message));
+  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
 }

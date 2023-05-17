@@ -1,8 +1,5 @@
-// import 'dart:io';
-
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path/path.dart' as path;
@@ -17,13 +14,18 @@ class FileStore = _FileStore with _$FileStore;
 abstract class _FileStore with Store {
   final MyFile file;
 
+  // constructor:---------------------------------------------------------------
   _FileStore(this.file);
 
+  // store variables:-----------------------------------------------------------
   @observable
   bool isUploading = false;
 
   @observable
   double progress = 0.0;
+
+  @observable
+  bool successDownload = false;
 
   @computed
   String get fileSize {
@@ -67,32 +69,37 @@ abstract class _FileStore with Store {
     }
   }
 
+  // actions:-------------------------------------------------------------------
   @action
-  Future<void> uploadFile() async {
+  Future<void> uploadFile(Function(String) callback) async {
     try {
       isUploading = true;
       String fileUrl = file.fileUrl;
       String fileName = file.title;
+      String message = "";
 
       final File? f = (await FileDownloader.downloadFile(
-        url: fileUrl,
-        name: "$fileName.$ext",
-        onProgress: (fileName, progress) {
-          this.progress = progress;
-        },
-        onDownloadCompleted: (path) {
-          print("Completed");
-        },
-      ));
+          url: fileUrl,
+          name: "$fileName$ext",
+          onProgress: (fileName, progress) {
+            this.progress = progress;
+          },
+          onDownloadCompleted: (path) {
+            successDownload = true;
+            message = 'Файл сохранен в $path';
+          },
+          onDownloadError: (paht) {
+            message = paht;
+          }));
+
+      callback(message);
 
       print('FILE: ${f?.path}');
-
-      // Загрузка файла завершена успешно
     } catch (e) {
       print(e);
-      // Обработка ошибок при загрузке файла
     } finally {
       isUploading = false;
+      // successDownload = false;
       progress = 0.0;
     }
   }
