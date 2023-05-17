@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
@@ -35,6 +36,35 @@ abstract class _FileStore with Store {
   @computed
   String get ext {
     return path.extension(file.fileUrl);
+  }
+
+  @computed
+  Color get color {
+    switch (ext.toLowerCase()) {
+      case ".pdf":
+        return const Color.fromRGBO(220, 137, 137, 1);
+      case ".doc":
+      case ".docx":
+        return const Color.fromRGBO(135, 196, 149, 1);
+      case ".xls":
+      case ".xlsx":
+        return const Color.fromRGBO(162, 154, 206, 1);
+      case ".ppt":
+      case ".pptx":
+        return const Color.fromRGBO(178, 156, 202, 1);
+      case ".jpg":
+      case ".jpeg":
+      case ".png":
+        return const Color.fromRGBO(142, 208, 219, 1);
+      case ".mp3":
+      case ".wav":
+        return const Color.fromRGBO(160, 215, 112, 1);
+      case ".mp4":
+      case ".avi":
+        return const Color.fromRGBO(214, 169, 117, 1);
+      default:
+        return const Color.fromRGBO(163, 189, 200, 1);
+    }
   }
 
   @action

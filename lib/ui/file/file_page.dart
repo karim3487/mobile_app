@@ -158,8 +158,7 @@ class FileCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  color: Color.fromARGB(255, 220, 137, 137),
-                  // color: Color.fromARGB(255, 135, 196, 149),
+                  color: fileStore.color,
                   width: 60,
                   height: 60,
                   alignment: Alignment.center,
