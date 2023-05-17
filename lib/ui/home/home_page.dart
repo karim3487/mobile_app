@@ -111,6 +111,7 @@ class _HomePageState extends State<HomePage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 3,
       child: ExpansionTile(
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         collapsedShape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -131,9 +132,12 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
-            child: Text(
-              '${_homeStore.adsList?.ads?[position].text}',
-              style: const TextStyle(fontSize: 15, color: Colors.black),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '${_homeStore.adsList?.ads?[position].text}',
+                style: const TextStyle(fontSize: 15, color: Colors.black),
+              ),
             ),
           ),
         ],
