@@ -76,17 +76,25 @@ class _HomePageState extends State<HomePage> {
     return _homeStore.adsList != null
         ? Container(
             color: AppColors.primary,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
-              itemCount: _homeStore.adsList!.ads!.length,
-              separatorBuilder: (context, position) {
-                return const SizedBox(
-                  height: 5,
-                );
+            child: RefreshIndicator(
+              onRefresh: () {
+                if (!_homeStore.loading) {
+                  return _homeStore.getAds();
+                }
+                return Future.delayed(Duration(seconds: 1));
               },
-              itemBuilder: (context, position) {
-                return _buildListItem(position);
-              },
+              child: ListView.separated(
+                padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
+                itemCount: _homeStore.adsList!.ads!.length,
+                separatorBuilder: (context, position) {
+                  return const SizedBox(
+                    height: 5,
+                  );
+                },
+                itemBuilder: (context, position) {
+                  return _buildListItem(position);
+                },
+              ),
             ),
           )
         : const Center(

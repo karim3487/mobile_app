@@ -80,17 +80,25 @@ class _FilePageState extends State<FilePage> {
     return _store.fileList != null
         ? Container(
             color: AppColors.primary,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
-              itemCount: _store.fileList!.files!.length,
-              separatorBuilder: (context, position) {
-                return const SizedBox(
-                  height: 5,
-                );
+            child: RefreshIndicator(
+              onRefresh: () {
+                if (!_store.loading) {
+                  return _store.getFiles();
+                }
+                return Future.delayed(Duration(seconds: 1));
               },
-              itemBuilder: (context, position) {
-                return _buildListItem(position);
-              },
+              child: ListView.separated(
+                padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
+                itemCount: _store.fileList!.files!.length,
+                separatorBuilder: (context, position) {
+                  return const SizedBox(
+                    height: 5,
+                  );
+                },
+                itemBuilder: (context, position) {
+                  return _buildListItem(position);
+                },
+              ),
             ),
           )
         : const Center(
