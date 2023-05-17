@@ -78,7 +78,6 @@ abstract class _AuthStore with Store {
   @action
   Future<void> login() async {
     isLoading = true;
-
     final future = _repository.login(email, password);
     loginFuture = ObservableFuture(future);
     future.then((user) async {
@@ -87,12 +86,13 @@ abstract class _AuthStore with Store {
 
       this.isAuthenticated = true;
       this.success = true;
+      this.isLoading = false;
     }).catchError((error) {
       errorStore.errorMessage = "Неверный логин или пароль";
       this.isAuthenticated = false;
       this.success = false;
+      this.isLoading = false;
     });
-    isLoading = false;
   }
 
   @action
