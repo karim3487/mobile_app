@@ -51,6 +51,7 @@ class _TeacherPageState extends State<TeacherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primary,
       appBar: AppBar(
         title: const Text("Учителя"),
         leading: IconButton(

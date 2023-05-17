@@ -41,6 +41,7 @@ class _FilePageState extends State<FilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primary,
       drawer: const NavBar(),
       appBar: AppBar(
         title: const Text("Методические материалы"),

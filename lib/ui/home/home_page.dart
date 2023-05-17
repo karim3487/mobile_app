@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_app/shared/colors.dart';
+import '../../models/ad.dart';
 import '../../stores/home/home_store.dart';
 import '../../stores/user/user_store.dart';
 import '../../widgets/navbar.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primary,
       drawer: NavBar(),
       appBar: AppBar(
         title: const Text("Новости"),
@@ -107,6 +109,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCard(int position) {
+    Ad? ad = _homeStore.adsList?.ads?[position];
+
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 3,
@@ -120,12 +124,12 @@ class _HomePageState extends State<HomePage> {
         tilePadding:
             const EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
         title: Text(
-          "${_homeStore.adsList?.ads?[position].creator.lastName} ${_homeStore.adsList?.ads?[position].creator.firstName?[0]}. ${_homeStore.adsList?.ads?[position].creator.lastName?[0]}.",
+          "${ad!.creator.lastName} ${ad.creator.firstName?[0]}. ${ad.creator.lastName?[0]}.",
           style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         subtitle: Text(
-          '${_homeStore.adsList?.ads?[position].title}',
+          ad.title,
           style: const TextStyle(fontSize: 16, color: Colors.black45),
           maxLines: 2,
         ),
@@ -135,7 +139,7 @@ class _HomePageState extends State<HomePage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${_homeStore.adsList?.ads?[position].text}',
+                ad.text,
                 style: const TextStyle(fontSize: 15, color: Colors.black),
               ),
             ),
