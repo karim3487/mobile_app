@@ -33,63 +33,60 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(
-                "${_userStore.user?.firstName} ${_userStore.user?.lastName}",
-                style: const TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              accountEmail: Text("${_userStore.user?.email}"),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: AppColors.orange[800],
-                backgroundImage:
-                    const AssetImage('assets/images/img_avatar.jpg'),
-              ),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/img_header_bd.jpg"),
-                  fit: BoxFit.fill,
-                ),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: Text(
+              "${_userStore.user?.firstName} ${_userStore.user?.lastName}",
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            accountEmail: Text("${_userStore.user?.email}"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: AppColors.primary,
+              backgroundImage: const AssetImage('assets/images/img_avatar.jpg'),
+            ),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/img_header_bd.jpg"),
+                fit: BoxFit.fill,
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.menu_book_outlined),
-              title: const Text("Методические материалы"),
-              onTap: () {
-                Navigator.pushNamed(context, Routes.files);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.group),
-              title: const Text("Преподаватели"),
-              onTap: () {
-                Navigator.pushNamed(context, Routes.teachers);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.location_on_sharp),
-              title: const Text("Карта кафедры"),
-              onTap: () => print('Карта'),
-            ),
-            ListTile(
-              leading: const Icon(Icons.email),
-              title: const Text("Сообщения"),
-              onTap: () => print('Сообщения'),
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text("Выход"),
-              onTap: () {
-                print('Выход');
-                _showLogoutDialog();
-              },
-            ),
-          ],
-        ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.menu_book_outlined),
+            title: const Text("Методические материалы"),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.files);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.group),
+            title: const Text("Преподаватели"),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.teachers);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.location_on_sharp),
+            title: const Text("Карта кафедры"),
+            onTap: () => print('Карта'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.email),
+            title: const Text("Сообщения"),
+            onTap: () => print('Сообщения'),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text("Выход"),
+            onTap: () {
+              print('Выход');
+              _showLogoutDialog();
+            },
+          ),
+        ],
       ),
     );
   }
