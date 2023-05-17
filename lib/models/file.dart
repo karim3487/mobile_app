@@ -1,20 +1,18 @@
-import 'dart:ffi';
-
-class File {
+class MyFile {
   final String title;
   final String fileUrl;
   final String createdAt;
   final int size;
 
-  File({
+  MyFile({
     required this.title,
     required this.fileUrl,
     required this.createdAt,
     required this.size,
   });
 
-  factory File.fromJson(Map<String, dynamic> json) {
-    return File(
+  factory MyFile.fromJson(Map<String, dynamic> json) {
+    return MyFile(
       title: json['title'],
       fileUrl: json['file'],
       createdAt: json['created_at'],

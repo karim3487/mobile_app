@@ -1,9 +1,8 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../shared/colors.dart';
 import '../../stores/files/file_list_store.dart';
@@ -107,26 +106,8 @@ class _FilePageState extends State<FilePage> {
   }
 
   _buildCard(int position) {
-    FileStore _fileStore = FileStore(_store.fileList!.files![position].fileUrl);
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: ListTile(
-        title: Text(_store.fileList!.files![position].title),
-        subtitle: Text(
-          "${(_store.fileList!.files![position].size / 1000).toString()} MB",
-        ),
-        onTap: () async {
-          // final uri = Uri.parse(_store.fileList!.files![position].fileUrl);
-          // if (await canLaunchUrl(uri)) {
-          //   await launchUrl(uri);
-          // } else {
-          //   throw 'Could not launch';
-          // }
-          _fileStore.uploadFile();
-        },
-      ),
-    );
+    FileStore fileStore = FileStore(_store.fileList!.files![position]);
+    return FileCard(fileStore: fileStore);
   }
 
   Widget _handleErrorMessage() {
@@ -153,5 +134,114 @@ class _FilePageState extends State<FilePage> {
     });
 
     return const SizedBox.shrink();
+  }
+}
+
+class FileCard extends StatelessWidget {
+  const FileCard({
+    super.key,
+    required this.fileStore,
+  });
+
+  final FileStore fileStore;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        fileStore.uploadFile();
+      },
+      child: Container(
+        height: 80,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  color: Color.fromARGB(255, 110, 197, 129),
+                  width: 60,
+                  height: 60,
+                  alignment: Alignment.center,
+                  child: Observer(
+                    builder: (BuildContext context) {
+                      return Stack(
+                        children: [
+                          Positioned.fill(
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                (fileStore.ext.toUpperCase()).substring(1),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (fileStore.isUploading)
+                            Positioned.fill(
+                              child: Container(
+                                alignment: Alignment.center,
+                                color: Colors.black54,
+                                child: CircularPercentIndicator(
+                                  radius: 25,
+                                  percent: fileStore.progress / 100,
+                                  lineWidth: 5,
+                                  progressColor: Colors.white,
+                                  backgroundColor: Colors.grey,
+                                  animation: true,
+                                  animationDuration: 1200,
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  center: Text(
+                                    fileStore.progress.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      fileStore.file.title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      fileStore.fileSize,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
