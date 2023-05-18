@@ -9,6 +9,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../shared/colors.dart';
+import '../../utils/routes.dart';
 import '../../widgets/navbar.dart';
 import '../../widgets/progress_indicator_widget.dart';
 
@@ -57,7 +58,7 @@ class _TeacherPageState extends State<TeacherPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushNamed(context, Routes.home);
           },
         ),
       ),

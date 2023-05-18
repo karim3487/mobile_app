@@ -7,6 +7,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../../shared/colors.dart';
 import '../../stores/files/file_list_store.dart';
 import '../../stores/files/file_store.dart';
+import '../../utils/routes.dart';
 import '../../widgets/navbar.dart';
 import '../../widgets/progress_indicator_widget.dart';
 
@@ -48,7 +49,7 @@ class _FilePageState extends State<FilePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushNamed(context, Routes.home);
           },
         ),
       ),
