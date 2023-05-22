@@ -54,7 +54,7 @@ class _TeacherPageState extends State<TeacherPage> {
     return Scaffold(
       backgroundColor: AppColors.primary,
       appBar: AppBar(
-        title: const Text("Учителя"),
+        title: const Text("Преподаватели"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
