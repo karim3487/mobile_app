@@ -83,4 +83,9 @@ class Repository {
       token: await _sharedPrefsHelper.authToken,
     );
   }
+
+  // General:-------------------------------------------------------------------
+  Future<void> logout() async {
+    _sharedPrefsHelper.logout();
+  }
 }

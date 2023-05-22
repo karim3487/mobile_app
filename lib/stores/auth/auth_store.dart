@@ -99,5 +99,6 @@ abstract class _AuthStore with Store {
   void logout() {
     isAuthenticated = false;
     _repository.saveIsLoggedIn(false);
+    _repository.logout();
   }
 }

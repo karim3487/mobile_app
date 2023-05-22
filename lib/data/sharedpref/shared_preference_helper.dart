@@ -77,4 +77,8 @@ class SharedPreferenceHelper {
   Future<String?> getProfession() async {
     return _sharedPreference.getString(Preferences.profession);
   }
+
+  Future<bool> logout() async {
+    return _sharedPreference.clear();
+  }
 }
