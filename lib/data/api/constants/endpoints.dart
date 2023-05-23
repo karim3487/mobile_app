@@ -21,4 +21,7 @@ class Endpoints {
 
   // login endpoints
   static const String loginWithEmail = "$baseUrl/auth/login/";
+
+  // timetable endpoints
+  static const String getGroupTimeTable = "$baseUrl/timetables/";
 }

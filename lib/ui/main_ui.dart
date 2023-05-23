@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../stores/files/file_list_store.dart';
 import '../stores/teacher/teacher_store.dart';
+import '../stores/timetable/timetable_store.dart';
 import '../stores/user/user_store.dart';
 import '../ui/auth/auth_page.dart';
 import '../data/repository.dart';
@@ -26,6 +27,7 @@ class MobileApp extends StatelessWidget {
   final HomeStore _homeStore = HomeStore(locator<Repository>());
   final TeacherStore _teacherStore = TeacherStore(locator<Repository>());
   final FileListStore _fileStore = FileListStore(locator<Repository>());
+  final TimetableStore _timetableStore = TimetableStore(locator<Repository>());
 
   MobileApp({super.key});
 
@@ -38,6 +40,7 @@ class MobileApp extends StatelessWidget {
         Provider<HomeStore>(create: (_) => _homeStore),
         Provider<TeacherStore>(create: (_) => _teacherStore),
         Provider<FileListStore>(create: (_) => _fileStore),
+        Provider<TimetableStore>(create: (_) => _timetableStore),
       ],
       child: Observer(
         name: 'global-observer',

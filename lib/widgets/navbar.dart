@@ -73,9 +73,11 @@ class _NavBarState extends State<NavBar> {
             onTap: () => print('Карта'),
           ),
           ListTile(
-            leading: const Icon(Icons.email),
-            title: const Text("Сообщения"),
-            onTap: () => print('Сообщения'),
+            leading: const Icon(Icons.calendar_month),
+            title: const Text("Расписание"),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.timetable);
+            },
           ),
           const Divider(),
           ListTile(

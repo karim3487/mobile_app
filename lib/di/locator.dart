@@ -4,6 +4,7 @@ import 'package:mobile_app/data/api/apis/file/file_api.dart';
 import 'package:mobile_app/data/api/apis/teachers/teacher_api.dart';
 import 'package:mobile_app/stores/files/file_list_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../data/api/apis/timetable/timetable_api.dart';
 import '../stores/teacher/teacher_store.dart';
 import '../stores/user/user_store.dart';
 import 'modules/NetworkModule.dart';
@@ -35,6 +36,7 @@ Future<void> setupLocator() async {
   locator.registerSingleton(AuthApi(locator<DioClient>()));
   locator.registerSingleton(TeacherApi(locator<DioClient>()));
   locator.registerSingleton(FileApi(locator<DioClient>()));
+  locator.registerSingleton(TimetableApi(locator<DioClient>()));
 
   // repository:----------------------------------------------------------------
   locator.registerSingleton(Repository(
@@ -43,6 +45,7 @@ Future<void> setupLocator() async {
     locator<AdApi>(),
     locator<TeacherApi>(),
     locator<FileApi>(),
+    locator<TimetableApi>(),
   ));
 
   // stores:--------------------------------------------------------------------

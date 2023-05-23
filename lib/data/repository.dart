@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:mobile_app/data/api/apis/timetable/timetable_api.dart';
 import 'package:mobile_app/models/file_list.dart';
 import 'package:mobile_app/models/teacher_list.dart';
+import 'package:mobile_app/models/timetable_list.dart';
 
 import 'api/apis/ads/ad_api.dart';
 import 'api/apis/auth/auth_api.dart';
@@ -21,10 +23,11 @@ class Repository {
   final AdApi _adApi;
   final TeacherApi _teacherApi;
   final FileApi _fileApi;
+  final TimetableApi _timetableApi;
 
   // constructor
   Repository(this._sharedPrefsHelper, this._authApi, this._adApi,
-      this._teacherApi, this._fileApi);
+      this._teacherApi, this._fileApi, this._timetableApi);
 
   // Ad: ---------------------------------------------------------------------
   Future<AdList> getAds() async {
@@ -50,6 +53,13 @@ class Repository {
   Future<File> downloadFile(String url, String savePath) async {
     return await _fileApi.downloadFile(url, savePath).then((fileList) {
       return fileList;
+    }).catchError((error) => throw error);
+  }
+
+  // Timetable: ---------------------------------------------------------------------
+  Future<TimetableList> getTimetable(String groupCode) async {
+    return await _timetableApi.getTimetable(groupCode).then((timetableList) {
+      return timetableList;
     }).catchError((error) => throw error);
   }
 
