@@ -7,6 +7,10 @@ class TimetableList {
     this.timetables,
   });
 
+  Timetable operator [](int index) {
+    return timetables![index];
+  }
+
   factory TimetableList.fromJson(List<dynamic> json) {
     List<Timetable> timetables = <Timetable>[];
     timetables =

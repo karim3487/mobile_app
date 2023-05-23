@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
 class Timetable {
   bool? isEven;
   String? code;
   int? day;
-  List<AllSubjects>? allSubjects;
+  List<Lesson>? allSubjects;
 
   Timetable({this.isEven, this.code, this.day, this.allSubjects});
 
@@ -11,9 +13,9 @@ class Timetable {
     code = json['code'];
     day = json['day'];
     if (json['all_subjects'] != null) {
-      allSubjects = <AllSubjects>[];
+      allSubjects = <Lesson>[];
       json['all_subjects'].forEach((v) {
-        allSubjects!.add(new AllSubjects.fromJson(v));
+        allSubjects!.add(new Lesson.fromJson(v));
       });
     }
   }
@@ -30,15 +32,26 @@ class Timetable {
   }
 }
 
-class AllSubjects {
+class Lesson {
   int? id;
   String? title;
-  String? start;
-  Null? end;
+  TimeOfDay? start;
+  TimeOfDay? end;
   String? classroom;
-  List<Professors>? professors;
+  List<Professor>? professors;
 
-  AllSubjects(
+  TimeOfDay? parseTimeOfDay(String? timeString) {
+    try {
+      List<String> parts = timeString!.split(':');
+      int hour = int.parse(parts[0]);
+      int minute = int.parse(parts[1]);
+      return TimeOfDay(hour: hour, minute: minute);
+    } catch (e) {
+      return TimeOfDay(hour: 0, minute: 0);
+    }
+  }
+
+  Lesson(
       {this.id,
       this.title,
       this.start,
@@ -46,16 +59,16 @@ class AllSubjects {
       this.classroom,
       this.professors});
 
-  AllSubjects.fromJson(Map<String, dynamic> json) {
+  Lesson.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    start = json['start'];
-    end = json['end'];
+    start = parseTimeOfDay(json['start']);
+    end = parseTimeOfDay(json['end']);
     classroom = json['classroom'];
     if (json['professors'] != null) {
-      professors = <Professors>[];
+      professors = <Professor>[];
       json['professors'].forEach((v) {
-        professors!.add(new Professors.fromJson(v));
+        professors!.add(new Professor.fromJson(v));
       });
     }
   }
@@ -74,13 +87,13 @@ class AllSubjects {
   }
 }
 
-class Professors {
+class Professor {
   int? tId;
   String? name;
 
-  Professors({this.tId, this.name});
+  Professor({this.tId, this.name});
 
-  Professors.fromJson(Map<String, dynamic> json) {
+  Professor.fromJson(Map<String, dynamic> json) {
     tId = json['t_id'];
     name = json['name'];
   }
