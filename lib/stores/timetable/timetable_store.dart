@@ -1,3 +1,4 @@
+import 'package:get/state_manager.dart';
 import 'package:mobile_app/models/timetable_list.dart';
 import 'package:mobx/mobx.dart';
 
@@ -31,6 +32,9 @@ abstract class _TimetableStore with Store {
   TimetableList? timetableList;
 
   @observable
+  DateTime focusedDay = DateTime.now();
+
+  @observable
   bool success = false;
 
   @computed
@@ -46,5 +50,10 @@ abstract class _TimetableStore with Store {
     }).catchError((error) {
       errorStore.errorMessage = DioErrorUtil.handleError(error);
     });
+  }
+
+  @action
+  void updateDate(DateTime day) {
+    this.focusedDay = day;
   }
 }

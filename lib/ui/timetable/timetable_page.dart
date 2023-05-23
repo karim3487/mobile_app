@@ -1,12 +1,13 @@
+import 'dart:developer';
+
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_app/shared/colors.dart';
-import '../../models/ad.dart';
-import '../../stores/home/home_store.dart';
+import 'package:weekview_calendar/weekview_calendar.dart';
 import '../../stores/timetable/timetable_store.dart';
-import '../../stores/user/user_store.dart';
 import '../../widgets/navbar.dart';
 import '../../widgets/progress_indicator_widget.dart';
 
@@ -65,9 +66,7 @@ class _TimetablePageState extends State<TimetablePage> {
       builder: (context) {
         return _store.loading
             ? CustomProgressIndicatorWidget()
-            : Material(
-                child: _buildListView(),
-              );
+            : Material(child: _buildListView());
       },
     );
   }
@@ -76,11 +75,49 @@ class _TimetablePageState extends State<TimetablePage> {
     return _store.timetableList != null
         ? Container(
             color: AppColors.primary,
-            child: Container(),
+            child: Column(
+              children: [
+                _buildCalendar(),
+                // _buildList(),
+              ],
+            ),
           )
         : const Center(
             child: Text("Расписание"),
           );
+  }
+
+  _buildCalendar() {
+    return Observer(
+      builder: (BuildContext context) {
+        return WeekviewCalendar(
+          firstDay: DateTime.now().subtract(const Duration(days: 365)),
+          lastDay: DateTime.now().add(const Duration(days: 365)),
+          focusedDay: _store.focusedDay,
+          calendarFormat: CalendarFormat.week,
+          locale: 'ru_RU',
+          startingDayOfWeek: StartingDayOfWeek.monday,
+          headerStyle: const HeaderStyle(
+            formatButtonVisible: false,
+            titleTextStyle:
+                TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          selectedDayPredicate: (day) {
+            return isSameDay(_store.focusedDay, day);
+          },
+          onDaySelected: (selectedDay, focusedDay) {
+            log(focusedDay.toString());
+            if (!isSameDay(_store.focusedDay, selectedDay)) {
+              _store.focusedDay = focusedDay;
+            }
+          },
+          onPageChanged: (focusedDay) {
+            // No need to call `setState()` here
+            _store.focusedDay = focusedDay;
+          },
+        );
+      },
+    );
   }
 
   Widget _handleErrorMessage() {

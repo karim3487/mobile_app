@@ -49,6 +49,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$focusedDayAtom =
+      Atom(name: '_TimetableStore.focusedDay', context: context);
+
+  @override
+  DateTime get focusedDay {
+    _$focusedDayAtom.reportRead();
+    return super.focusedDay;
+  }
+
+  @override
+  set focusedDay(DateTime value) {
+    _$focusedDayAtom.reportWrite(value, super.focusedDay, () {
+      super.focusedDay = value;
+    });
+  }
+
   late final _$successAtom =
       Atom(name: '_TimetableStore.success', context: context);
 
@@ -73,11 +89,26 @@ mixin _$TimetableStore on _TimetableStore, Store {
     return _$getTimetablesAsyncAction.run(() => super.getTimetables(groupCode));
   }
 
+  late final _$_TimetableStoreActionController =
+      ActionController(name: '_TimetableStore', context: context);
+
+  @override
+  void updateDate(DateTime day) {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.updateDate');
+    try {
+      return super.updateDate(day);
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 fetchTimetablesFuture: ${fetchTimetablesFuture},
 timetableList: ${timetableList},
+focusedDay: ${focusedDay},
 success: ${success},
 loading: ${loading}
     ''';
