@@ -57,8 +57,10 @@ class Repository {
   }
 
   // Timetable: ---------------------------------------------------------------------
-  Future<TimetableList> getTimetable(String groupCode) async {
-    return await _timetableApi.getTimetable(groupCode).then((timetableList) {
+  Future<TimetableList> getTimetable(String groupCode, String day) async {
+    return await _timetableApi
+        .getTimetable(groupCode, day)
+        .then((timetableList) {
       return timetableList;
     }).catchError((error) => throw error);
   }

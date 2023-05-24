@@ -10,9 +10,11 @@ class TimetableApi {
   // constructor
   TimetableApi(this._apiClient);
 
-  Future<TimetableList> getTimetable(String groupCode) async {
+  Future<TimetableList> getTimetable(String groupCode, String day) async {
     try {
-      final res = await _apiClient.get(Endpoints.getGroupTimeTable + groupCode);
+      // final res = await _apiClient.get(Endpoints.getGroupTimeTable + groupCode);
+      final res =
+          await _apiClient.get('${Endpoints.getGroupTimeTable}$groupCode?date=$day');
       return TimetableList.fromJson(res);
     } catch (e) {
       print(e.toString());

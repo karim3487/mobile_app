@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobile_app/models/timetable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_app/shared/colors.dart';
 import 'package:weekview_calendar/weekview_calendar.dart';
 import '../../stores/timetable/timetable_store.dart';
+import '../../utils/routes.dart';
 import '../../widgets/navbar.dart';
 import '../../widgets/progress_indicator_widget.dart';
 
@@ -35,7 +37,7 @@ class _TimetablePageState extends State<TimetablePage> {
 
     // check to see if already called api
     if (!_store.loading) {
-      _store.getTimetables('И508Б');
+      _store.getTimetableList();
     }
   }
 
@@ -45,7 +47,13 @@ class _TimetablePageState extends State<TimetablePage> {
       backgroundColor: AppColors.primary,
       drawer: NavBar(),
       appBar: AppBar(
-        title: const Text("Расписание"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.home);
+          },
+        ),
+        title: Text(_store.groupCode),
       ),
       body: _buildBody(),
     );
@@ -72,19 +80,180 @@ class _TimetablePageState extends State<TimetablePage> {
   }
 
   _buildListView() {
-    return _store.timetableList != null
-        ? Container(
-            color: AppColors.primary,
-            child: Column(
+    Timetable? timetable = _store.timetable;
+    print(timetable);
+    return Container(
+      color: AppColors.primary,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: _buildCalendar(),
+          ),
+          timetable != null
+              ? Positioned(
+                  top: 125,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: ListView(
+                    padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          _store.timetable!.isEven!
+                              ? "Четная неделя"
+                              : "Нечетная неделя",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: timetable.allSubjects!.length,
+                        separatorBuilder: (context, position) {
+                          return SizedBox(height: 5);
+                        },
+                        itemBuilder: (context, position) {
+                          return _buildListItem(position);
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              : Positioned(
+                  top: 125,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 1000,
+                    width: 1000,
+                    color: AppColors.primary,
+                    child: const Center(
+                        child: Text(
+                      "Рассписания на этот день нет",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    )),
+                  ),
+                )
+        ],
+      ),
+    );
+  }
+
+  _buildListItem(int position) {
+    return _buildCard(position);
+  }
+
+  _buildCard(int position) {
+    List<Lesson> lessons = _store.timetable!.allSubjects!;
+    String professorsNames = _store
+        .timetable!.allSubjects![position].professors!
+        .map((professor) => professor.name)
+        .join(", ");
+
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                _buildCalendar(),
-                // _buildList(),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 2),
+                        const Icon(
+                          Icons.book,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          lessons[position].title!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.access_time,
+                        size: 20,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(width: 2),
+                      Text(
+                        '${lessons[position].start!.format(context)} - ${lessons[position].end!.format(context)}',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          )
-        : const Center(
-            child: Text("Расписание"),
-          );
+            const SizedBox(height: 10),
+            Row(children: [
+              const Icon(
+                Icons.location_on,
+                // size: 20,
+              ),
+              const SizedBox(width: 2),
+              Text(
+                lessons[position].classroom != null
+                    ? lessons[position]
+                        .classroom!
+                        .substring(0, lessons[position].classroom!.length - 2)
+                    : 'Аудитория не указана',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ]),
+            const SizedBox(height: 8),
+            Row(children: [
+              const Icon(
+                Icons.person,
+                // size: 20,
+              ),
+              const SizedBox(width: 2),
+              Text(
+                professorsNames != ''
+                    ? '${professorsNames}'
+                    : 'Преподаватели не указаны',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ]),
+          ],
+        ),
+      ),
+    );
   }
 
   _buildCalendar() {
@@ -106,14 +275,14 @@ class _TimetablePageState extends State<TimetablePage> {
             return isSameDay(_store.focusedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
-            log(focusedDay.toString());
             if (!isSameDay(_store.focusedDay, selectedDay)) {
               _store.focusedDay = focusedDay;
             }
           },
           onPageChanged: (focusedDay) {
-            // No need to call `setState()` here
             _store.focusedDay = focusedDay;
+            print('FDAY: ${_store.focusedDay}');
+            _store.getTimetableList();
           },
         );
       },

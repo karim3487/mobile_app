@@ -49,6 +49,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$timetableAtom =
+      Atom(name: '_TimetableStore.timetable', context: context);
+
+  @override
+  Timetable? get timetable {
+    _$timetableAtom.reportRead();
+    return super.timetable;
+  }
+
+  @override
+  set timetable(Timetable? value) {
+    _$timetableAtom.reportWrite(value, super.timetable, () {
+      super.timetable = value;
+    });
+  }
+
   late final _$focusedDayAtom =
       Atom(name: '_TimetableStore.focusedDay', context: context);
 
@@ -81,23 +97,50 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$getTimetablesAsyncAction =
-      AsyncAction('_TimetableStore.getTimetables', context: context);
+  late final _$groupCodeAtom =
+      Atom(name: '_TimetableStore.groupCode', context: context);
 
   @override
-  Future<void> getTimetables(String groupCode) {
-    return _$getTimetablesAsyncAction.run(() => super.getTimetables(groupCode));
+  String get groupCode {
+    _$groupCodeAtom.reportRead();
+    return super.groupCode;
+  }
+
+  @override
+  set groupCode(String value) {
+    _$groupCodeAtom.reportWrite(value, super.groupCode, () {
+      super.groupCode = value;
+    });
+  }
+
+  late final _$getTimetableListAsyncAction =
+      AsyncAction('_TimetableStore.getTimetableList', context: context);
+
+  @override
+  Future<void> getTimetableList() {
+    return _$getTimetableListAsyncAction.run(() => super.getTimetableList());
   }
 
   late final _$_TimetableStoreActionController =
       ActionController(name: '_TimetableStore', context: context);
 
   @override
-  void updateDate(DateTime day) {
+  Timetable? setTimetableDay() {
     final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.updateDate');
+        name: '_TimetableStore.setTimetableDay');
     try {
-      return super.updateDate(day);
+      return super.setTimetableDay();
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateGroupCode(String groupCode) {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.updateGroupCode');
+    try {
+      return super.updateGroupCode(groupCode);
     } finally {
       _$_TimetableStoreActionController.endAction(_$actionInfo);
     }
@@ -108,8 +151,10 @@ mixin _$TimetableStore on _TimetableStore, Store {
     return '''
 fetchTimetablesFuture: ${fetchTimetablesFuture},
 timetableList: ${timetableList},
+timetable: ${timetable},
 focusedDay: ${focusedDay},
 success: ${success},
+groupCode: ${groupCode},
 loading: ${loading}
     ''';
   }
