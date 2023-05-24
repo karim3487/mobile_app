@@ -12,6 +12,7 @@ import '../../stores/timetable/timetable_store.dart';
 import '../../utils/routes.dart';
 import '../../widgets/navbar.dart';
 import '../../widgets/progress_indicator_widget.dart';
+import 'group_dialog.dart';
 
 class TimetablePage extends StatefulWidget {
   const TimetablePage({super.key});
@@ -53,7 +54,29 @@ class _TimetablePageState extends State<TimetablePage> {
             Navigator.pushNamed(context, Routes.home);
           },
         ),
-        title: Text(_store.groupCode),
+        actions: [
+          PopupMenuButton<String>(
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem<String>(
+                  value: 'changeGroup',
+                  child: Text('Выбрать группу'),
+                ),
+              ];
+            },
+            onSelected: (String value) {
+              if (value == 'changeGroup') {
+                _store.getGroups();
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return GroupChoiceDialog();
+                    });
+              }
+            },
+          ),
+        ],
+        title: Text("Рассписание"),
       ),
       body: _buildBody(),
     );
@@ -81,7 +104,6 @@ class _TimetablePageState extends State<TimetablePage> {
 
   _buildListView() {
     Timetable? timetable = _store.timetable;
-    print(timetable);
     return Container(
       color: AppColors.primary,
       child: Stack(
@@ -105,8 +127,8 @@ class _TimetablePageState extends State<TimetablePage> {
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           _store.timetable!.isEven!
-                              ? "Четная неделя"
-                              : "Нечетная неделя",
+                              ? "Четная неделя ${_store.groupCode}"
+                              : "Нечетная неделя ${_store.groupCode}",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

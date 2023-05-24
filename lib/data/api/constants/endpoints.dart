@@ -24,4 +24,5 @@ class Endpoints {
 
   // timetable endpoints
   static const String getGroupTimeTable = "$baseUrl/timetables/";
+  static const String getGroups = "$baseUrl/groups/";
 }

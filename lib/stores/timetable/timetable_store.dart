@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:mobile_app/models/timetable_list.dart';
 import 'package:mobx/mobx.dart';
 import 'package:intl/intl.dart';
 import '../../data/repository.dart';
+import '../../models/group_list.dart';
 import '../../models/timetable.dart';
 import '../../utils/dio/dio_error_util.dart';
 import '../error/error_store.dart';
@@ -35,15 +37,28 @@ abstract class _TimetableStore with Store {
   }
 
   // store variables:-----------------------------------------------------------
-  static ObservableFuture<TimetableList?> emptyPostResponse =
+  static ObservableFuture<TimetableList?> emptyGetTimetableResponse =
+      ObservableFuture.value(null);
+
+  static ObservableFuture<GroupList?> emptyGetGroupsResponse =
       ObservableFuture.value(null);
 
   @observable
   ObservableFuture<TimetableList?> fetchTimetablesFuture =
-      ObservableFuture<TimetableList?>(emptyPostResponse);
+      ObservableFuture<TimetableList?>(emptyGetTimetableResponse);
+
+  @observable
+  ObservableFuture<GroupList?> fetchGroupsFuture =
+      ObservableFuture<GroupList?>(emptyGetGroupsResponse);
 
   @observable
   TimetableList? timetableList;
+
+  @observable
+  GroupList? groupList;
+
+  @observable
+  String filter = '';
 
   @observable
   Timetable? timetable;
@@ -60,6 +75,17 @@ abstract class _TimetableStore with Store {
   @computed
   bool get loading => fetchTimetablesFuture.status == FutureStatus.pending;
 
+  @computed
+  List<DropDownValueModel> get groupCodes {
+    if (groupList != null) {
+      return groupList!.codeList
+          .map((value) => DropDownValueModel(name: value, value: value))
+          .toList();
+    } else {
+      return [const DropDownValueModel(name: "Загрузка...", value: "")];
+    }
+  }
+
   @action
   Future<void> getTimetableList() async {
     final day = DateFormat('yyyy-MM-dd').format(focusedDay);
@@ -68,7 +94,23 @@ abstract class _TimetableStore with Store {
 
     future.then((timetableList) {
       this.timetableList = timetableList;
+      setTimetableDay();
     }).catchError((error) {
+      errorStore.errorMessage = DioErrorUtil.handleError(error);
+    });
+  }
+
+  @action
+  Future<void> getGroups() async {
+    final future = _repository.getGroups();
+    fetchGroupsFuture = ObservableFuture(future);
+
+    future.then((groupList) {
+      this.groupList = groupList;
+      print("OK");
+    }).catchError((error) {
+      print("ERROR!!!!");
+      print(error);
       errorStore.errorMessage = DioErrorUtil.handleError(error);
     });
   }
@@ -86,5 +128,10 @@ abstract class _TimetableStore with Store {
   @action
   void updateGroupCode(String groupCode) {
     this.groupCode = groupCode;
+  }
+
+  @action
+  void setFilter(String value) {
+    filter = value;
   }
 }

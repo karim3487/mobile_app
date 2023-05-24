@@ -15,6 +15,13 @@ mixin _$TimetableStore on _TimetableStore, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_TimetableStore.loading'))
       .value;
+  Computed<List<DropDownValueModel>>? _$groupCodesComputed;
+
+  @override
+  List<DropDownValueModel> get groupCodes => (_$groupCodesComputed ??=
+          Computed<List<DropDownValueModel>>(() => super.groupCodes,
+              name: '_TimetableStore.groupCodes'))
+      .value;
 
   late final _$fetchTimetablesFutureAtom =
       Atom(name: '_TimetableStore.fetchTimetablesFuture', context: context);
@@ -33,6 +40,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$fetchGroupsFutureAtom =
+      Atom(name: '_TimetableStore.fetchGroupsFuture', context: context);
+
+  @override
+  ObservableFuture<GroupList?> get fetchGroupsFuture {
+    _$fetchGroupsFutureAtom.reportRead();
+    return super.fetchGroupsFuture;
+  }
+
+  @override
+  set fetchGroupsFuture(ObservableFuture<GroupList?> value) {
+    _$fetchGroupsFutureAtom.reportWrite(value, super.fetchGroupsFuture, () {
+      super.fetchGroupsFuture = value;
+    });
+  }
+
   late final _$timetableListAtom =
       Atom(name: '_TimetableStore.timetableList', context: context);
 
@@ -46,6 +69,38 @@ mixin _$TimetableStore on _TimetableStore, Store {
   set timetableList(TimetableList? value) {
     _$timetableListAtom.reportWrite(value, super.timetableList, () {
       super.timetableList = value;
+    });
+  }
+
+  late final _$groupListAtom =
+      Atom(name: '_TimetableStore.groupList', context: context);
+
+  @override
+  GroupList? get groupList {
+    _$groupListAtom.reportRead();
+    return super.groupList;
+  }
+
+  @override
+  set groupList(GroupList? value) {
+    _$groupListAtom.reportWrite(value, super.groupList, () {
+      super.groupList = value;
+    });
+  }
+
+  late final _$filterAtom =
+      Atom(name: '_TimetableStore.filter', context: context);
+
+  @override
+  String get filter {
+    _$filterAtom.reportRead();
+    return super.filter;
+  }
+
+  @override
+  set filter(String value) {
+    _$filterAtom.reportWrite(value, super.filter, () {
+      super.filter = value;
     });
   }
 
@@ -121,6 +176,14 @@ mixin _$TimetableStore on _TimetableStore, Store {
     return _$getTimetableListAsyncAction.run(() => super.getTimetableList());
   }
 
+  late final _$getGroupsAsyncAction =
+      AsyncAction('_TimetableStore.getGroups', context: context);
+
+  @override
+  Future<void> getGroups() {
+    return _$getGroupsAsyncAction.run(() => super.getGroups());
+  }
+
   late final _$_TimetableStoreActionController =
       ActionController(name: '_TimetableStore', context: context);
 
@@ -147,15 +210,30 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
+  void setFilter(String value) {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.setFilter');
+    try {
+      return super.setFilter(value);
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 fetchTimetablesFuture: ${fetchTimetablesFuture},
+fetchGroupsFuture: ${fetchGroupsFuture},
 timetableList: ${timetableList},
+groupList: ${groupList},
+filter: ${filter},
 timetable: ${timetable},
 focusedDay: ${focusedDay},
 success: ${success},
 groupCode: ${groupCode},
-loading: ${loading}
+loading: ${loading},
+groupCodes: ${groupCodes}
     ''';
   }
 }

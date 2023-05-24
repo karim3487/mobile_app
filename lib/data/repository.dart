@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:mobile_app/data/api/apis/timetable/timetable_api.dart';
 import 'package:mobile_app/models/file_list.dart';
+import 'package:mobile_app/models/group_list.dart';
 import 'package:mobile_app/models/teacher_list.dart';
 import 'package:mobile_app/models/timetable_list.dart';
 
@@ -62,6 +63,12 @@ class Repository {
         .getTimetable(groupCode, day)
         .then((timetableList) {
       return timetableList;
+    }).catchError((error) => throw error);
+  }
+
+  Future<GroupList> getGroups() async {
+    return await _timetableApi.getGroups().then((groupList) {
+      return groupList;
     }).catchError((error) => throw error);
   }
 
