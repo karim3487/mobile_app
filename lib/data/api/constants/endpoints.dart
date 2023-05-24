@@ -5,10 +5,10 @@ class Endpoints {
   static const String baseUrl = "http://10.0.2.2:8000/api";
 
   // receiveTimeout
-  static const int receiveTimeout = 15000;
+  static const Duration receiveTimeout = Duration(milliseconds: 15000);
 
   // connectTimeout
-  static const int connectionTimeout = 30000;
+  static const Duration connectionTimeout = Duration(milliseconds: 30000);
 
   // ads endpoints
   static const String getAds = "$baseUrl/ads";
