@@ -59,7 +59,7 @@ class _GroupChoiceDialogState extends State<GroupChoiceDialog> {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       backgroundColor: AppColors.primary,
-      elevation: 0,
+      elevation: 5,
       content: SingleChildScrollView(
         child: Column(
           children: [
@@ -84,7 +84,7 @@ class _GroupChoiceDialogState extends State<GroupChoiceDialog> {
                   itemHeight: 40,
                   onSuggestionTap: (p0) {
                     _store.groupCode = p0.searchKey;
-                    print(p0.searchKey);
+                    _store.updateGroupCode(p0.searchKey);
                   },
                 );
               },

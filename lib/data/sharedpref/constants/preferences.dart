@@ -9,4 +9,6 @@ class Preferences {
   static const String lastName = "lastName";
   static const String surname = "surname";
   static const String profession = "profession";
+
+  static const String groupCode = "groupCode";
 }

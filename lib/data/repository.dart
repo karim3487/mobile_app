@@ -72,6 +72,11 @@ class Repository {
     }).catchError((error) => throw error);
   }
 
+  Future<void> saveGroupCode(String value) =>
+      _sharedPrefsHelper.saveGroupCode(value);
+
+  Future<String> get groupCode => _sharedPrefsHelper.groupCode;
+
   // Login:---------------------------------------------------------------------
   Future<User> login(String email, String password) async {
     return await _authApi.login(email, password);

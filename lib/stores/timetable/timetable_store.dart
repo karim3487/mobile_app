@@ -24,6 +24,11 @@ abstract class _TimetableStore with Store {
   _TimetableStore(Repository repository) : _repository = repository {
     // setting up disposers
     _setupDisposers();
+
+    // checking if user set groupCode
+    repository.groupCode.then((value) {
+      groupCode = value;
+    });
   }
 
   // disposers:-----------------------------------------------------------------
@@ -66,7 +71,7 @@ abstract class _TimetableStore with Store {
   bool success = false;
 
   @observable
-  String groupCode = 'И508Б';
+  String groupCode = '';
 
   @computed
   bool get loading => fetchTimetablesFuture.status == FutureStatus.pending;
@@ -128,6 +133,7 @@ abstract class _TimetableStore with Store {
 
   @action
   void updateGroupCode(String groupCode) {
+    _repository.saveGroupCode(groupCode);
     this.groupCode = groupCode;
   }
 }

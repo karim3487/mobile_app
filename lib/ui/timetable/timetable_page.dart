@@ -38,6 +38,7 @@ class _TimetablePageState extends State<TimetablePage> {
     // check to see if already called api
     if (!_store.loading) {
       _store.getTimetableList();
+      _store.getGroups();
     }
   }
 
@@ -83,12 +84,15 @@ class _TimetablePageState extends State<TimetablePage> {
 
   // body methods:--------------------------------------------------------------
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        _handleErrorMessage(),
-        _buildMainContent(),
-      ],
-    );
+    if (_store.groupCode != '') {
+      return Stack(
+        children: <Widget>[
+          _handleErrorMessage(),
+          _buildMainContent(),
+        ],
+      );
+    }
+    return GroupChoiceDialog();
   }
 
   Observer _buildMainContent() {
@@ -115,7 +119,7 @@ class _TimetablePageState extends State<TimetablePage> {
           ),
           timetable != null
               ? Positioned(
-                  top: 125,
+                  top: 128,
                   left: 0,
                   right: 0,
                   bottom: 0,
@@ -169,7 +173,7 @@ class _TimetablePageState extends State<TimetablePage> {
                   ),
                 )
               : Positioned(
-                  top: 125,
+                  top: 128,
                   left: 0,
                   right: 0,
                   bottom: 0,

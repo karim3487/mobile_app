@@ -34,6 +34,15 @@ class SharedPreferenceHelper {
     return _sharedPreference.setBool(Preferences.isAuthenticated, value);
   }
 
+  // Timetable:-----------------------------------------------------------------
+  Future<String> get groupCode async {
+    return _sharedPreference.getString(Preferences.groupCode) ?? '';
+  }
+
+  Future<bool> saveGroupCode(String code) async {
+    return _sharedPreference.setString(Preferences.groupCode, code);
+  }
+
   // User:----------------------------------------------------------------------
   Future<bool> saveEmail(String email) async {
     return _sharedPreference.setString(Preferences.email, email);
