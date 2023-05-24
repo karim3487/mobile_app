@@ -7,6 +7,7 @@ import 'package:mobile_app/shared/colors.dart';
 import 'package:mobile_app/utils/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:searchfield/searchfield.dart';
 
 import '../../stores/timetable/timetable_store.dart';
 import '../../widgets/progress_indicator_widget.dart';
@@ -70,22 +71,23 @@ class _GroupChoiceDialogState extends State<GroupChoiceDialog> {
               ),
             ),
             Observer(
-              builder: (_) => DropDownTextField(
-                textFieldDecoration: InputDecoration(hintText: "Группа"),
-                searchDecoration: InputDecoration(hintText: 'Поиск'),
-                dropdownRadius: 10,
-                clearOption: false,
-                textFieldFocusNode: textFieldFocusNode,
-                searchFocusNode: searchFocusNode,
-                searchAutofocus: true,
-                dropDownItemCount: 2,
-                enableSearch: true,
-                searchKeyboardType: TextInputType.text,
-                dropDownList: _store.groupCodes,
-                onChanged: (val) {
-                  _store.groupCode = val.value;
-                },
-              ),
+              builder: (context) {
+                return SearchField(
+                  suggestions: _store.groupCodes,
+                  suggestionState: Suggestion.expand,
+                  suggestionsDecoration:
+                      SuggestionDecoration(color: Colors.white),
+                  hint: "Группа...",
+                  searchStyle: TextStyle(
+                    fontSize: 16,
+                  ),
+                  itemHeight: 40,
+                  onSuggestionTap: (p0) {
+                    _store.groupCode = p0.searchKey;
+                    print(p0.searchKey);
+                  },
+                );
+              },
             ),
           ],
         ),

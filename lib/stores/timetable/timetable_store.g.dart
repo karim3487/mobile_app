@@ -15,11 +15,11 @@ mixin _$TimetableStore on _TimetableStore, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_TimetableStore.loading'))
       .value;
-  Computed<List<DropDownValueModel>>? _$groupCodesComputed;
+  Computed<List<SearchFieldListItem<dynamic>>>? _$groupCodesComputed;
 
   @override
-  List<DropDownValueModel> get groupCodes => (_$groupCodesComputed ??=
-          Computed<List<DropDownValueModel>>(() => super.groupCodes,
+  List<SearchFieldListItem<dynamic>> get groupCodes => (_$groupCodesComputed ??=
+          Computed<List<SearchFieldListItem<dynamic>>>(() => super.groupCodes,
               name: '_TimetableStore.groupCodes'))
       .value;
 
@@ -85,22 +85,6 @@ mixin _$TimetableStore on _TimetableStore, Store {
   set groupList(GroupList? value) {
     _$groupListAtom.reportWrite(value, super.groupList, () {
       super.groupList = value;
-    });
-  }
-
-  late final _$filterAtom =
-      Atom(name: '_TimetableStore.filter', context: context);
-
-  @override
-  String get filter {
-    _$filterAtom.reportRead();
-    return super.filter;
-  }
-
-  @override
-  set filter(String value) {
-    _$filterAtom.reportWrite(value, super.filter, () {
-      super.filter = value;
     });
   }
 
@@ -210,24 +194,12 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
-  void setFilter(String value) {
-    final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.setFilter');
-    try {
-      return super.setFilter(value);
-    } finally {
-      _$_TimetableStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 fetchTimetablesFuture: ${fetchTimetablesFuture},
 fetchGroupsFuture: ${fetchGroupsFuture},
 timetableList: ${timetableList},
 groupList: ${groupList},
-filter: ${filter},
 timetable: ${timetable},
 focusedDay: ${focusedDay},
 success: ${success},

@@ -1,9 +1,8 @@
-import 'dart:developer';
-
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/models/timetable_list.dart';
 import 'package:mobx/mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:searchfield/searchfield.dart';
 import '../../data/repository.dart';
 import '../../models/group_list.dart';
 import '../../models/timetable.dart';
@@ -58,9 +57,6 @@ abstract class _TimetableStore with Store {
   GroupList? groupList;
 
   @observable
-  String filter = '';
-
-  @observable
   Timetable? timetable;
 
   @observable
@@ -76,13 +72,20 @@ abstract class _TimetableStore with Store {
   bool get loading => fetchTimetablesFuture.status == FutureStatus.pending;
 
   @computed
-  List<DropDownValueModel> get groupCodes {
+  List<SearchFieldListItem> get groupCodes {
     if (groupList != null) {
       return groupList!.codeList
-          .map((value) => DropDownValueModel(name: value, value: value))
+          .map((value) => SearchFieldListItem(value,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  value,
+                  style: TextStyle(fontSize: 16),
+                ),
+              )))
           .toList();
     } else {
-      return [const DropDownValueModel(name: "Загрузка...", value: "")];
+      return [SearchFieldListItem("Загрузка...", child: Text("data"))];
     }
   }
 
@@ -107,9 +110,7 @@ abstract class _TimetableStore with Store {
 
     future.then((groupList) {
       this.groupList = groupList;
-      print("OK");
     }).catchError((error) {
-      print("ERROR!!!!");
       print(error);
       errorStore.errorMessage = DioErrorUtil.handleError(error);
     });
@@ -128,10 +129,5 @@ abstract class _TimetableStore with Store {
   @action
   void updateGroupCode(String groupCode) {
     this.groupCode = groupCode;
-  }
-
-  @action
-  void setFilter(String value) {
-    filter = value;
   }
 }

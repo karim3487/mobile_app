@@ -54,6 +54,7 @@ dependencies:
   percent_indicator: ^4.2.3
   weekview_calendar: ^0.0.3
   dropdown_textfield: ^1.0.8
+  searchfield: ^0.8.3
 
 dev_dependencies:
   flutter_test:

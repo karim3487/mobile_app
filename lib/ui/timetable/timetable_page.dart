@@ -4,7 +4,6 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobile_app/models/timetable.dart';
-import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_app/shared/colors.dart';
 import 'package:weekview_calendar/weekview_calendar.dart';
@@ -125,14 +124,33 @@ class _TimetablePageState extends State<TimetablePage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          _store.timetable!.isEven!
-                              ? "Четная неделя ${_store.groupCode}"
-                              : "Нечетная неделя ${_store.groupCode}",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                _store.timetable!.isEven!
+                                    ? "Четная неделя"
+                                    : "Нечетная неделя",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  _store.groupCode,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10)
+                          ],
                         ),
                       ),
                       SizedBox(height: 5),
@@ -194,26 +212,62 @@ class _TimetablePageState extends State<TimetablePage> {
           children: [
             Row(
               children: [
+                Row(
+                  children: [
+                    const SizedBox(width: 2),
+                    const Icon(
+                      Icons.book,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      lessons[position].title!,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(children: [
+              const Icon(
+                Icons.person,
+                // size: 20,
+              ),
+              const SizedBox(width: 2),
+              Text(
+                professorsNames != ''
+                    ? '${professorsNames}'
+                    : 'Преподаватели не указаны',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ]),
+            const SizedBox(height: 8),
+            Row(
+              children: [
                 Expanded(
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 2),
-                        const Icon(
-                          Icons.book,
-                          size: 20,
+                    child: Row(children: [
+                      const Icon(
+                        Icons.location_on,
+                      ),
+                      const SizedBox(width: 2),
+                      Text(
+                        lessons[position].classroom != null
+                            ? lessons[position].classroom!.substring(
+                                0, lessons[position].classroom!.length - 2)
+                            : 'Не указана',
+                        style: const TextStyle(
+                          fontSize: 16,
                         ),
-                        const SizedBox(width: 5),
-                        Text(
-                          lessons[position].title!,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ]),
                   ),
                 ),
                 Container(
@@ -238,40 +292,6 @@ class _TimetablePageState extends State<TimetablePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            Row(children: [
-              const Icon(
-                Icons.location_on,
-                // size: 20,
-              ),
-              const SizedBox(width: 2),
-              Text(
-                lessons[position].classroom != null
-                    ? lessons[position]
-                        .classroom!
-                        .substring(0, lessons[position].classroom!.length - 2)
-                    : 'Аудитория не указана',
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ]),
-            const SizedBox(height: 8),
-            Row(children: [
-              const Icon(
-                Icons.person,
-                // size: 20,
-              ),
-              const SizedBox(width: 2),
-              Text(
-                professorsNames != ''
-                    ? '${professorsNames}'
-                    : 'Преподаватели не указаны',
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ]),
           ],
         ),
       ),
