@@ -124,7 +124,9 @@ class _HomePageState extends State<HomePage> {
         tilePadding:
             const EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
         title: Text(
-          "${ad!.creator.lastName} ${ad.creator.firstName?[0]}. ${ad.creator.lastName?[0]}.",
+          "${ad!.creator.lastName} ${ad.creator.firstName ?? [
+                0
+              ]}. ${ad.creator.lastName ?? [0]}.",
           style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
         ),
