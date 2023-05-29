@@ -54,6 +54,13 @@ class _NavBarState extends State<NavBar> {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.calendar_month),
+            title: const Text("Расписание"),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.timetable);
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.menu_book_outlined),
             title: const Text("Методические материалы"),
             onTap: () {
@@ -65,18 +72,6 @@ class _NavBarState extends State<NavBar> {
             title: const Text("Преподаватели"),
             onTap: () {
               Navigator.pushNamed(context, Routes.teachers);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.location_on_sharp),
-            title: const Text("Карта кафедры"),
-            onTap: () => print('Карта'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.calendar_month),
-            title: const Text("Расписание"),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.timetable);
             },
           ),
           const Divider(),
